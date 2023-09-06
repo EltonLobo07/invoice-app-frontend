@@ -1,23 +1,14 @@
+import React from "react";
+import { Theme, ThemeContext } from "~/src/contexts/ThemeContext";
+
 export function App() {
+	const [theme, setTheme] = React.useState<Theme>("light");
+
 	return (
-		<div
-			className = "border border-blue-500"
+		<ThemeContext.Provider
+			value = {[theme, setTheme]}
 		>
-			<div
-				className = "font-bold"
-			>
-				Test 1
-			</div>
-			<div
-				className = "font-semibold"
-			>
-				Test 2
-			</div>
-			<div
-				className = "font-thin"
-			>
-				Test 2
-			</div>
-		</div>
+			Hello world
+		</ThemeContext.Provider>
 	);
 }
