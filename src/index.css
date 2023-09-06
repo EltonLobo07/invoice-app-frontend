@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: "League Spartan";
+		src: 
+        	url("/fonts/LeagueSpartan-VariableFont_wght.ttf") format("ttf supports variations"),
+        	url("/fonts/LeagueSpartan-VariableFont_wght.ttf") format("ttf-variations");
+    	font-weight: 100 900;
+	}
+}
