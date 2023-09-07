@@ -9,7 +9,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["League Spartan", ...defaultTheme.fontFamily.sans]
+				sans: [/*'"Teko-test"', */'"League Spartan"', ...defaultTheme.fontFamily.sans]
 			},
 			colors: {
 				"fig-ds-01": "#7C5DFA",

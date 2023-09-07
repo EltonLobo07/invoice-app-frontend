@@ -25,17 +25,15 @@ export function Layout(props: Props) {
             <Header 
                 applyMediaQueryPositionStyles
             />
-            <main
-                className = {`
-                    flex-grow overflow-y-auto 
-                    px-24px laptopAndUp:px-128px 
-                    border border-black 
-                    w-[45.625rem] max-w-full
-                    mx-auto
-                `}
+            <div
+                className = "flex-grow overflow-y-auto px-24px laptopAndUp:px-128px"
             >
-                {props.children}
-            </main>
+                <main
+                    className = "h-full w-[45.625rem] max-w-full mx-auto"
+                >
+                    {props.children}
+                </main>
+            </div>
         </div>
     );
 }
