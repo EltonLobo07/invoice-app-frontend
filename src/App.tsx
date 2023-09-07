@@ -1,5 +1,6 @@
 import React from "react";
 import { Theme, ThemeContext } from "~/src/contexts/ThemeContext";
+import { Layout } from "./Layout";
 
 export function App() {
 	const [theme, setTheme] = React.useState<Theme>("light");
@@ -8,7 +9,9 @@ export function App() {
 		<ThemeContext.Provider
 			value = {[theme, setTheme]}
 		>
-			Hello world
+			<Layout>
+				Hello world
+			</Layout>
 		</ThemeContext.Provider>
 	);
 }

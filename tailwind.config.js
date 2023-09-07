@@ -32,6 +32,10 @@ export default {
 				"wash-me": "#F9FAFE",
 				"stoic-white": "#DFE3FA",
 				"stone-wash": "#777F98"
+			},
+			screens: {
+				tabAndUp: "45rem", // 720px 
+        		laptopAndUp: "68.75rem" // 1100px
 			}
 		},
 	},
