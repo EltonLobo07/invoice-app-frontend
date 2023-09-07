@@ -36,6 +36,24 @@ export default {
 			screens: {
 				tabAndUp: "45rem", // 720px 
         		laptopAndUp: "68.75rem" // 1100px
+			},
+			padding: {
+				"8px": "8px",
+				"16px": "16px",
+				"24px": "24px",
+				"32px": "32px",
+				"40px": "40px",
+				"48px": "48px",
+				"56px": "56px",
+				"64px": "64px",
+				"72px": "72px",
+				"80px": "80px",
+				"88px": "88px",
+				"96px": "96px",
+				"104px": "104px",
+				"112px": "112px",
+				"120px": "120px",
+				"128px": "128px"
 			}
 		},
 	},
