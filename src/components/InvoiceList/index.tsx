@@ -6,6 +6,8 @@ import { StatusListbox } from "~/src/components/InvoiceList/StatusListbox";
 import { Button } from "~/src/components/Button";
 import { Plus } from "~/src/components/icons/Plus";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
+import { InvoiceListItem } from "~/src/components/InvoiceList/InvoiceListItem";
+import { invoiceService } from "~/src/services/invoiceService";
 
 export function InvoiceList() {
     const [invoices, setInvoices] = React.useState<readonly DeepReadonly<Invoice>[]>([]);
@@ -27,13 +29,20 @@ export function InvoiceList() {
     }
 
     React.useEffect(() => {
-        setInvoices([]);
+        void (async () => {
+            try {
+                setInvoices(await invoiceService.getInvoices());
+            }
+            catch(error) {
+                console.log(error);
+            }
+        })();
     }, []);
 
     return (
         <section
             aria-label = {sectionTitle}
-            className = "h-full pt-32px tabAndUp:pt-[61px] laptopAndUp:pt-78px border border-black"
+            className = "h-full flex flex-col pt-32px tabAndUp:pt-[61px] laptopAndUp:pt-78px"
         >
             <header
                 className = "flex items-baseline mb-16 gap-x-4 gap-y-4 tabAndUp:gap-x-10 relative z-10 flex-wrap"
@@ -100,6 +109,28 @@ export function InvoiceList() {
                     </Button>
                 </div>
             </header>
+            {/*
+                Use of an ordered list over an unordered list below is debatable. 
+                But if I claim that my application will list out invoices in sorted order 
+                based on the payment due date (early payment due invoices come first), 
+                then the order matters. I plan to display the invoices based 
+                on the payment due date of each invoice.
+            */}
+            {/*
+                p-[4px] to give some space for the outline of the list item button
+            */}
+            <ol
+                className = "flex-grow flex flex-col gap-y-4 overflow-y-auto p-[4px]"
+            >
+                {
+                    filteredInvoices.map(filteredInvoice => (
+                        <InvoiceListItem 
+                            key = {filteredInvoice.id}
+                            invoice = {filteredInvoice}
+                        />
+                    ))
+                }
+            </ol>
         </section>
     );
 }

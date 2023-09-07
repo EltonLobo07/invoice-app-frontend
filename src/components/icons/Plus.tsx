@@ -13,7 +13,7 @@ export function Plus(props: IconProps) {
             viewBox = "0 0 11 11" 
             {...otherProps}
             className = {twMerge(
-                "w-[11px] h-[11px]",
+                "w-[0.6875rem] h-[0.6875rem]",
                 className
             )}
         >

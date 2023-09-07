@@ -2,7 +2,7 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { Theme } from "~/src/contexts/ThemeContext";
-import { shouldBeUnreachable } from "~/src/helpers";
+import { helpers } from "~/src/helpers";
 
 type PlainVariants = `plain${"" | "-darker"}`;
 type PublicBtnType = "primary" | "secondary" | "danger" | PlainVariants;
@@ -43,7 +43,7 @@ function getTxtAndBgColor(
             break;
         }
         default: {
-            shouldBeUnreachable(btnType, `btnType not handled: ${btnType} in getTxtAndBgColor`);
+            helpers.shouldBeUnreachable(btnType, `btnType not handled: ${btnType} in getTxtAndBgColor`);
         }
     }
     return {
