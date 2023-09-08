@@ -2,8 +2,10 @@ import { twMerge } from "tailwind-merge";
 import { Invoice } from "~/src/types";
 import { helpers } from "~/src/helpers";
 import { twStyles } from "~/src/twStyles";
+import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
+import { Theme } from "~/src/contexts/ThemeContext";
 
-function getDotAndRootBgColorClassNames(status: Invoice["status"]) {
+function getDotAndRootBgColorClassNames(status: Invoice["status"], theme: Theme) {
     let txtColor = "";
     let rootBgColor = "";
     switch(status) {
@@ -16,7 +18,13 @@ function getDotAndRootBgColorClassNames(status: Invoice["status"]) {
             break;
         }
         case "draft": {
-            [txtColor, rootBgColor] = ["text-carbon-blue", "bg-carbon-blue/5"];
+            [txtColor, rootBgColor] = 
+                (
+                    theme === "light" 
+                    ? ["text-carbon-blue", "bg-carbon-blue/5"]
+                    : ["text-fig-ds-05", "bg-carbon-blue/30"]
+
+                );
             break;
         }
         default: {
@@ -35,7 +43,8 @@ type Props = {
 };
 
 export function InvoiceStatus(props: Props) {
-    const dotAndRootBgColor = getDotAndRootBgColorClassNames(props.value);
+    const [theme] = useThemeContext();
+    const dotAndRootBgColor = getDotAndRootBgColorClassNames(props.value, theme);
 
     return (
         <span
