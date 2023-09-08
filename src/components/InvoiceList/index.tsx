@@ -8,6 +8,10 @@ import { Plus } from "~/src/components/icons/Plus";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { InvoiceListItem } from "~/src/components/InvoiceList/InvoiceListItem";
 import { invoiceService } from "~/src/services/invoiceService";
+import IllustrationEmpty from "~/src/images/illustration-empty.svg";
+import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
+import { twMerge } from "tailwind-merge";
+import { helpers } from "~/src/helpers";
 
 export function InvoiceList() {
     const [invoices, setInvoices] = React.useState<readonly DeepReadonly<Invoice>[]>([]);
@@ -16,14 +20,14 @@ export function InvoiceList() {
         "pending",
         "paid"
     ]);
-
-    console.log("filterBy:", filterBy);
+    const [theme] = useThemeContext();
 
     const filteredInvoices = invoices.filter(invoice => filterBy.includes(invoice.status));
+    const noInvoices = filteredInvoices.length === 0;
     const sectionTitle = "invoices";
     let mobileInvoiceDescription = "No invoices";
     let tabAndUpInvoiceDescription = mobileInvoiceDescription;
-    if (filteredInvoices.length > 0) {
+    if (!noInvoices) {
         mobileInvoiceDescription = `${filteredInvoices.length} invoices`;
         tabAndUpInvoiceDescription = `There are ${filteredInvoices.length} total invoices`;
     }
@@ -45,7 +49,11 @@ export function InvoiceList() {
             className = "h-full flex flex-col pt-32px tabAndUp:pt-[61px] laptopAndUp:pt-78px"
         >
             <header
-                className = "flex items-baseline mb-16 gap-x-4 gap-y-4 tabAndUp:gap-x-10 relative z-10 flex-wrap"
+                className = {`
+                    flex items-baseline gap-x-4 gap-y-4 tabAndUp:gap-x-10 flex-wrap 
+                    relative z-10
+                    ${noInvoices ? "mb-0" : "mb-[64px]"}    
+                `}
             >
                 <div
                     className = "flex flex-col"
@@ -119,18 +127,84 @@ export function InvoiceList() {
             {/*
                 p-[4px] to give some space for the outline of the list item button
             */}
-            <ol
-                className = "flex-grow flex flex-col gap-y-4 overflow-y-auto p-[4px]"
+            <div
+                className = {`
+                    flex-grow overflow-y-auto 
+                    ${helpers.passIfTrueElseEmpty(noInvoices, "flex")}
+                `}
             >
                 {
-                    filteredInvoices.map(filteredInvoice => (
-                        <InvoiceListItem 
-                            key = {filteredInvoice.id}
-                            invoice = {filteredInvoice}
-                        />
-                    ))
+                    noInvoices 
+                    ? (
+                        <div
+                            className = "flex flex-col overflow-y-auto gap-y-[42px] tabAndUp:gap-y-[66px] my-auto w-full items-center py-2"
+                        >
+                            <img 
+                                src = {IllustrationEmpty}
+                                alt = ""
+                                className = "w-48 h-40"
+                            />
+                            <div
+                                className = "flex flex-col gap-y-6 text-center"
+                            >
+                                <span
+                                    className = {`
+                                        ${twStyles.fontFigHeadingM}
+                                    `}
+                                >
+                                    There is nothing here
+                                </span>
+                                <p
+                                    className = {`
+                                        flex flex-col
+                                        ${twStyles.fontFigBodyVar}
+                                        ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
+                                    `}
+                                >
+                                    <span>
+                                        Create an invoice by clicking the
+                                    </span> 
+                                    <span>
+                                        <span
+                                            className = {twMerge(
+                                                "capitalize",
+                                                twStyles.fontFigBodyVar,
+                                                "font-bold"
+                                            )}
+                                        >
+                                            <span
+                                                className = "tabAndUp:hidden"
+                                            >
+                                                {"new "}
+                                            </span>
+                                            <span
+                                                className = "hidden tabAndUp:inline"
+                                            >
+                                                {"new invoice "}
+                                            </span>
+                                        </span>
+                                        button and get started
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    )
+                    : (
+                        <ol
+                            className = "h-full overflow-y-auto flex flex-col gap-y-4 p-[4px]"
+                        >
+                            {
+                                filteredInvoices.map(filteredInvoice => (
+                                    <InvoiceListItem 
+                                        key = {filteredInvoice.id}
+                                        invoice = {filteredInvoice}
+                                    />
+                                ))
+                            }
+                        </ol>
+                    )
                 }
-            </ol>
+            </div>
         </section>
     );
 }

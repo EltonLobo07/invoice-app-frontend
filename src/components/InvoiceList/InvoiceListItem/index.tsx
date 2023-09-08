@@ -4,12 +4,14 @@ import { DeepReadonly } from "~/src/types/helpers";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { TabAndUp } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/TabAndUp";
 import { Mobile } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/Mobile";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     invoice: DeepReadonly<Invoice>
 };
 
 export function InvoiceListItem(props: Props) {
+    const navigate = useNavigate();
     const [theme] = useThemeContext();
     const sectionTitle = `main details of invoice with unique identifier ${props.invoice.id} `;
 
@@ -30,8 +32,14 @@ export function InvoiceListItem(props: Props) {
                         {sectionTitle}
                     </h3>
                 </VisuallyHidden>
+                <Mobile 
+                    invoice = {props.invoice}
+                />
+                <TabAndUp
+                    invoice = {props.invoice}
+                />
                 <button
-                    onClick = {() => {}}
+                    onClick = {() => navigate(`/${props.invoice.id}`)}
                     className = "absolute top-0 left-0 h-full w-full outline-fig-ds-01"
                 >
                     <VisuallyHidden
@@ -40,12 +48,6 @@ export function InvoiceListItem(props: Props) {
                         {`Display detailed invoice info associated to unique identifier: ${props.invoice.id}`}
                     </VisuallyHidden>
                 </button>
-                <Mobile 
-                    invoice = {props.invoice}
-                />
-                <TabAndUp
-                    invoice = {props.invoice}
-                />
             </section>
         </li>
     );
