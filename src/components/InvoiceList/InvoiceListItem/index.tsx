@@ -32,12 +32,6 @@ export function InvoiceListItem(props: Props) {
                         {sectionTitle}
                     </h3>
                 </VisuallyHidden>
-                <Mobile 
-                    invoice = {props.invoice}
-                />
-                <TabAndUp
-                    invoice = {props.invoice}
-                />
                 <button
                     onClick = {() => navigate(`/${props.invoice.id}`)}
                     className = "absolute top-0 left-0 h-full w-full outline-fig-ds-01"
@@ -48,6 +42,12 @@ export function InvoiceListItem(props: Props) {
                         {`Display detailed invoice info associated to unique identifier: ${props.invoice.id}`}
                     </VisuallyHidden>
                 </button>
+                <Mobile 
+                    invoice = {props.invoice}
+                />
+                <TabAndUp
+                    invoice = {props.invoice}
+                />
             </section>
         </li>
     );
