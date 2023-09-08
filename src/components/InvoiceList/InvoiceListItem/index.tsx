@@ -1,8 +1,9 @@
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { Invoice } from "~/src/types";
 import { DeepReadonly } from "~/src/types/helpers";
-import { VisuallyHidden } from "../../VisuallyHidden";
-import { TabAndUpView } from "./TabAndUpView";
+import { VisuallyHidden } from "~/src/components/VisuallyHidden";
+import { TabAndUp } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/TabAndUp";
+import { Mobile } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/Mobile";
 
 type Props = {
     invoice: DeepReadonly<Invoice>
@@ -39,7 +40,10 @@ export function InvoiceListItem(props: Props) {
                         {`Display detailed invoice info associated to unique identifier: ${props.invoice.id}`}
                     </VisuallyHidden>
                 </button>
-                <TabAndUpView
+                <Mobile 
+                    invoice = {props.invoice}
+                />
+                <TabAndUp
                     invoice = {props.invoice}
                 />
             </section>

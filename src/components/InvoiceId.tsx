@@ -4,7 +4,7 @@ import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { twStyles } from "~/src/twStyles";
 
 type Props = {
-    id: Invoice["id"]
+    value: Invoice["id"]
 } & Partial<Record<`${"root" | "id" | "hash"}ClassName`, string>>;
 
 export function InvoiceId(props: Props) {
@@ -32,7 +32,7 @@ export function InvoiceId(props: Props) {
                     props.idClassName
                 )}
             >
-                {props.id}
+                {props.value}
             </span>
         </span>
     );
