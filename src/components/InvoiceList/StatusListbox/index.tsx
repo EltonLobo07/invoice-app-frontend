@@ -7,6 +7,7 @@ import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { ChevronUp } from "~/src/components/icons/chevrons/ChevronUp";
 import { ChevronDown } from "~/src/components/icons/chevrons/ChevronDown";
 import { StatusOption } from "~/src/components/InvoiceList/StatusListbox/StatusOption";
+import { helpers } from "~/src/helpers";
 
 type Status = Invoice["status"];
 
@@ -71,7 +72,8 @@ export function StatusListbox(props: Props) {
                             </div>
                         </Listbox.Button>
                         <Listbox.Options
-                            className = {`
+                            className = {helpers.formatClassNames(
+                                `
                                 absolute top-10 left-1/2 -translate-x-1/2
                                 min-w-[12rem] 
                                 flex flex-col gap-y-4 
@@ -79,7 +81,8 @@ export function StatusListbox(props: Props) {
                                 rounded-[8px] 
                                 shadow-[0_10px_20px_0_#48549F40]
                                 ${theme === "light" ? "bg-white" : "bg-fig-ds-04"}
-                            `}
+                                `
+                            )}
                         >
                             {
                                 (["pending", "paid", "draft"] as const)

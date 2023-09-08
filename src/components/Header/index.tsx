@@ -20,7 +20,8 @@ export function Header(props: Props) {
     // overflow-hidden - To contain the direct div element within the border radius
     return (
         <header
-            className = {`
+            className = {helpers.formatClassNames(
+                `
                 overflow-hidden 
                 flex laptopAndUp:flex-col justify-between flex-shrink-0 
                 laptopAndUp:rounded-r-[20px] 
@@ -30,14 +31,17 @@ export function Header(props: Props) {
                     applyMediaQueryPositionStyles,
                     "laptopAndUp:absolute laptopAndUp:top-0 laptopAndUp:left-0" 
                 )}
-            `}
+                `
+            )}
         >
             <MainHeadingWithLogo />
             <div
-                className = {`
+                className = {helpers.formatClassNames(
+                    `
                     flex laptopAndUp:flex-col
                     gap-[4px] mr-[4px] laptopAndUp:mr-0 laptopAndUp:mb-[4px]
-                `}
+                    `
+                )}
             >
                 <Button
                     onClick = {() => setTheme(nextTheme)}
@@ -55,14 +59,16 @@ export function Header(props: Props) {
                     visuallyHiddenText = "logout"
                 >
                     <div
-                        className = {`
+                        className = {helpers.formatClassNames(
+                            `
                             w-[32px] laptopAndUp:w-[40px] 
                             h-[32px] laptopAndUp:h-[40px]
                             rounded-full 
                             m-auto
                             bg-fig-ds-01
                             border border-fig-ds-01
-                        `}
+                            `
+                        )}
                     ></div>
                 </Button>
             </div>

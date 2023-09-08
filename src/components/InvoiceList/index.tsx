@@ -49,11 +49,13 @@ export function InvoiceList() {
             className = "h-full flex flex-col pt-32px tabAndUp:pt-[61px] laptopAndUp:pt-78px"
         >
             <header
-                className = {`
+                className = {helpers.formatClassNames(
+                    `
                     flex items-baseline gap-x-4 gap-y-4 tabAndUp:gap-x-10 flex-wrap 
                     relative z-10
                     ${noInvoices ? "mb-0" : "mb-[64px]"}    
-                `}
+                    `
+                )}
             >
                 <div
                     className = "flex flex-col"
@@ -128,10 +130,12 @@ export function InvoiceList() {
                 p-[4px] to give some space for the outline of the list item button
             */}
             <div
-                className = {`
+                className = {helpers.formatClassNames(
+                    `
                     flex-grow overflow-y-auto 
                     ${helpers.passIfTrueElseEmpty(noInvoices, "flex")}
-                `}
+                    `
+                )}
             >
                 {
                     noInvoices 
@@ -155,11 +159,13 @@ export function InvoiceList() {
                                     There is nothing here
                                 </span>
                                 <p
-                                    className = {`
+                                    className = {helpers.formatClassNames(
+                                        `
                                         flex flex-col
                                         ${twStyles.fontFigBodyVar}
                                         ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
-                                    `}
+                                        `
+                                    )}
                                 >
                                     <span>
                                         Create an invoice by clicking the

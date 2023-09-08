@@ -19,9 +19,25 @@ function getInvoiceItemsTotal(invoiceItems: DeepReadonly<Invoice["items"]>): num
     return invoiceItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 }
 
+function formatClassNames(classNames: string): string {
+    const stack: string[] = [];
+    const specialCharacters = new Set([" ", "\t", "\n"]);
+    for (const ch of classNames) {
+        const chPresent = specialCharacters.has(ch); 
+        if (!chPresent || (stack.length > 0 && !specialCharacters.has(stack[stack.length - 1]))) {
+            stack.push(chPresent ? " " : ch);
+        }
+    }
+    while (stack && specialCharacters.has(stack[stack.length - 1])) {
+        stack.pop();
+    }
+    return stack.join("");
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
     getInvoiceItemsTotal,
-    convertToDisplayableDateStr
+    convertToDisplayableDateStr,
+    formatClassNames
 };

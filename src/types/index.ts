@@ -2,7 +2,7 @@ import * as helpers from "~/src/types/helpers";
 
 export type InvoiceDate = helpers.Branded<string, "InvoiceDate">;
 type InvoiceStatus = "paid" | "pending" | "draft";
-type InvoiceAddress = {
+export type InvoiceAddress = {
     street: string,
     city: string,
     postCode: string,
@@ -14,7 +14,6 @@ type InvoiceItem = {
     price: number,
     total: number
 };
-export type InvoiceItemWithId = {id: string} & InvoiceItem;
 export type Invoice = {
     id: string,
     createdAt: InvoiceDate,

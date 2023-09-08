@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { Theme } from "~/src/contexts/ThemeContext";
 import { helpers } from "~/src/helpers";
+import { twStyles } from "~/src/twStyles";
 
 type PlainVariants = `plain${"" | "-darker"}`;
 type PublicBtnType = "primary" | "secondary" | "danger" | PlainVariants;
@@ -31,7 +32,7 @@ function getTxtAndBgColor(
             break;
         }
         case "plain-dark": {
-            [txtColor, bgColor, bgColorOnHover] = ["text-stoic-white", "bg-fig-ds-04", "hover:bg-white"];
+            [txtColor, bgColor, bgColorOnHover] = ["text-fig-ds-07", "bg-fig-ds-04", "hover:bg-white"];
             break;
         }
         case "plain-darker-light": {
@@ -72,10 +73,11 @@ export function Button(props: Props) {
         <button
             {...props.nativeBtnProps}
             className = {twMerge(
-                "rounded-[32px] px-[24px] py-[18px] capitalize",
+                "rounded-[1.5rem] px-6 py-4 capitalize",
                 txtAndBgColor.bgColor,
                 txtAndBgColor.bgColorOnHover,
                 txtAndBgColor.txtColor,
+                twStyles.fontFigHeadingSVar,
                 props.nativeBtnProps?.className
             )}
         >

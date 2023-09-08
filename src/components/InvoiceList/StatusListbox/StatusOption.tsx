@@ -20,7 +20,8 @@ export function StatusOption(props: Props) {
                 ({ active, selected }) => (
                     <>
                         <div
-                            className = {`
+                            className = {helpers.formatClassNames(
+                                `
                                 w-4 h-4 
                                 rounded-[4px] 
                                 flex justify-center items-center
@@ -33,7 +34,8 @@ export function StatusOption(props: Props) {
                                       ? "bg-fig-ds-05"
                                       : "bg-fig-ds-03"
                                 }
-                            `}
+                                `
+                            )}
                         >
                             {
                                 selected && (

@@ -5,6 +5,7 @@ import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { TabAndUp } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/TabAndUp";
 import { Mobile } from "~/src/components/InvoiceList/InvoiceListItem/responsive-views/Mobile";
 import { useNavigate } from "react-router-dom";
+import { helpers } from "~/src/helpers";
 
 type Props = {
     invoice: DeepReadonly<Invoice>
@@ -17,11 +18,13 @@ export function InvoiceListItem(props: Props) {
 
     return (
         <li
-            className = {`
+            className = {helpers.formatClassNames(
+                `
                 ${theme === "light" ? "bg-white" : "bg-fig-ds-03"}
                 shadow-[0_10px_10px_-10px_#48549F1A]
                 rounded-[8px]
-            `}
+                `
+            )}
         >
             <section
                 aria-label = {sectionTitle}

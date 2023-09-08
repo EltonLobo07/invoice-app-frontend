@@ -1,6 +1,7 @@
 import React from "react";
 import { Header } from "~/src/components/Header";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
+import { helpers } from "~/src/helpers";
 
 type Props = {
     children: React.ReactNode
@@ -15,12 +16,14 @@ export function Layout(props: Props) {
     */
     return (
         <div
-            className = {`
+            className = {helpers.formatClassNames(
+                `
                 h-full relative 
                 flex flex-col
                 selection:bg-fig-ds-02 selection:text-white
                 ${theme === "light" ? "bg-fig-ds-11 text-fig-ds-08" : "bg-fig-ds-12 text-white"}
-            `}
+                `
+            )}
         >
             <Header 
                 applyMediaQueryPositionStyles
