@@ -38,7 +38,7 @@ export function ItemsSection(props: Props) {
                 aria-label = "grand total"
                 className = {helpers.formatClassNames(
                     `
-                        flex justify-between items-center 
+                        flex justify-between items-center flex-wrap gap-y-2 
                         px-24px tabAndUp:px-32px
                         py-[1.625rem] tabAndUp:py-[1.6875rem]
                         text-white

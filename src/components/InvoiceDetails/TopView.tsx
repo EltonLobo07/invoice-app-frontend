@@ -43,10 +43,10 @@ export function TopView(props: Props) {
                 <ul
                     className = {helpers.formatClassNames(
                         `
-                        hidden gap-[8px]
+                        flex gap-[8px]
                         items-center
                         overflow-x-auto
-                        fixed left-0 right-0 bottom-0 tabAndUp:static 
+                        fixed left-0 right-0 bottom-0 z-10 tabAndUp:static 
                         px-16px py-[22px] tabAndUp:px-0 tabAndUp:py-0
                         ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
                         ${commonTwStyles.boxShadow}

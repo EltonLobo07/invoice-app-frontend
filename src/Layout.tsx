@@ -29,7 +29,7 @@ export function Layout(props: Props) {
                 applyMediaQueryPositionStyles
             />
             <div
-                className = "flex-grow overflow-y-auto px-24px laptopAndUp:px-128px"
+                className = "flex-grow overflow-y-auto px-8px laptopAndUp:px-128px"
             >
                 <main
                     className = "h-full w-[45.625rem] max-w-full mx-auto"

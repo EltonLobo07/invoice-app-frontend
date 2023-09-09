@@ -5,6 +5,7 @@ import { InvoiceWithItemId, invoiceService } from "~/src/services/invoiceService
 import { GoBackBtn } from "~/src/components/GoBackBtn";
 import { TopView } from "~/src/components/InvoiceDetails/TopView";
 import { MidView } from "~/src/components/InvoiceDetails/MidView";
+import { helpers } from "~/src/helpers";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
@@ -34,9 +35,19 @@ export function InvoiceDetails() {
     } else {
         const title = `details of invoice with unique identifier ${invoice.id}`;
         
+        /*
+            pb-28 is a magic number to help invoice details not to not get covered by the list of action buttons
+        */
         contentNode = (
             <div
-                className = "h-full overflow-y-hidden pt-32px tabAndUp:pt-48px laptopAndUp:pt-64px flex flex-col gap-y-8"
+                className = {helpers.formatClassNames(
+                    `
+                    h-full overflow-y-hidden 
+                    pt-32px tabAndUp:pt-48px laptopAndUp:pt-64px 
+                    flex flex-col gap-y-8 
+                    pb-28 tabAndUp:pb-0
+                    `
+                )}
             >
                 <GoBackBtn
                     onClick = {() => navigate(-1)}

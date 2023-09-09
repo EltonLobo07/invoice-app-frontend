@@ -19,7 +19,7 @@ export function ItemSection(props: Props) {
     return (
         <section
             aria-label = {title}
-            className = "flex justify-between"
+            className = "flex justify-between flex-wrap gap-y-2"
         >
             <div
                 className = "flex flex-col gap-y-2"
