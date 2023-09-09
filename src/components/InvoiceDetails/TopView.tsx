@@ -1,3 +1,4 @@
+import React from "react";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { Button } from "~/src/components/Button";
 import { twStyles } from "~/src/twStyles";
@@ -7,13 +8,16 @@ import { Invoice } from "~/src/types";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { commonTwStyles } from "~/src/components/InvoiceDetails/common";
 import { helpers } from "~/src/helpers";
+import { DeleteModal } from "./DeleteModal";
 
 type Props = {
     invoice: DeepReadonly<Invoice>,
-    title: string
+    title: string,
+    onDelete: () => void
 };
 
 export function TopView(props: Props) {
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
     const [theme] = useThemeContext();
 
     const lightTheme = theme === "light";
@@ -64,6 +68,9 @@ export function TopView(props: Props) {
                     <li>
                         <Button
                             customType = "danger"
+                            nativeBtnProps = {{
+                                onClick: () => setOpenDeleteModal(true)
+                            }}
                         >
                             delete
                         </Button>
@@ -107,7 +114,13 @@ export function TopView(props: Props) {
                 <InvoiceStatus 
                     value = {props.invoice.status}
                 />
-            </div>                       
+            </div>     
+            <DeleteModal
+                open = {openDeleteModal}
+                onClose = {() => setOpenDeleteModal(false)}
+                onDelete = {props.onDelete}
+                invoiceId = {props.invoice.id}
+            />                  
         </div>
     );
 }

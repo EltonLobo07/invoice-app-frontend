@@ -34,6 +34,15 @@ export function InvoiceDetails() {
         contentNode = "No invoice";
     } else {
         const title = `details of invoice with unique identifier ${invoice.id}`;
+        const onDelete = async () => {
+            try {
+                await invoiceService.deleteInvoice(invoice.id);
+                navigate(-1);
+            }
+            catch(error) {
+                console.log(error);
+            }
+        };
         
         /*
             pb-28 is a magic number to help invoice details not to not get covered by the list of action buttons
@@ -59,6 +68,7 @@ export function InvoiceDetails() {
                     <TopView
                         invoice = {invoice}
                         title = {title}
+                        onDelete = {onDelete}
                     />
                     <MidView 
                         invoice = {invoice}
