@@ -4,9 +4,11 @@ import { MainHeadingWithLogo } from "~/src/components/MainHeadingWithLogo";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { Moon } from "~/src/components/icons/Moon";
 import { Sun } from "~/src/components/icons/Sun";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
-    applyMediaQueryPositionStyles?: boolean
+    applyMediaQueryPositionStyles?: boolean,
+    className?: string
 };
 
 export function Header(props: Props) {
@@ -20,18 +22,22 @@ export function Header(props: Props) {
     // overflow-hidden - To contain the direct div element within the border radius
     return (
         <header
-            className = {helpers.formatClassNames(
-                `
-                overflow-hidden 
-                flex laptopAndUp:flex-col justify-between flex-shrink-0 
-                laptopAndUp:rounded-r-[20px] 
-                laptopAndUp:h-full
-                ${isLightTheme ? "bg-carbon-blue" : "bg-fig-ds-03"}
-                ${helpers.passIfTrueElseEmpty(
-                    applyMediaQueryPositionStyles,
-                    "laptopAndUp:absolute laptopAndUp:top-0 laptopAndUp:left-0" 
-                )}
-                `
+            className = {twMerge(
+                helpers.formatClassNames(
+                    `
+                    overflow-hidden 
+                    flex laptopAndUp:flex-col justify-between flex-shrink-0 
+                    laptopAndUp:rounded-r-[20px] 
+                    laptopAndUp:h-full
+                    laptopAndUp:w-fit
+                    ${isLightTheme ? "bg-carbon-blue" : "bg-fig-ds-03"}
+                    ${helpers.passIfTrueElseEmpty(
+                        applyMediaQueryPositionStyles,
+                        "laptopAndUp:absolute laptopAndUp:top-0 laptopAndUp:left-0" 
+                    )}
+                    `
+                ),
+                props.className
             )}
         >
             <MainHeadingWithLogo />

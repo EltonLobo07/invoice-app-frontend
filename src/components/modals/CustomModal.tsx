@@ -8,9 +8,9 @@ type Props = {
     className?: string
 };
 
-export type ModalProps = Props;
+export type CustomModalProps = Props;
 
-export function Modal(props: Props) {
+export function CustomModal(props: Props) {
     return (
         <HUIDialog
             open = {props.open}
@@ -32,6 +32,6 @@ export function Modal(props: Props) {
     );
 }
 
-Modal.Title = HUIDialog.Title;
-Modal.Description = HUIDialog.Description;
-Modal.Panel = HUIDialog.Panel;
+CustomModal.Title = HUIDialog.Title;
+CustomModal.Description = HUIDialog.Description;
+CustomModal.Panel = HUIDialog.Panel;

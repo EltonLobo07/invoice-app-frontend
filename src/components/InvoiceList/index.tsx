@@ -12,9 +12,11 @@ import IllustrationEmpty from "~/src/images/illustration-empty.svg";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { twMerge } from "tailwind-merge";
 import { helpers } from "~/src/helpers";
+import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
 
 export function InvoiceList() {
     const [invoices, setInvoices] = React.useState<readonly DeepReadonly<Invoice>[]>([]);
+    const [openInvoiceFormModal, setOpenInvoiceFormModal] = React.useState(false);
     const [filterBy, setFilterBy] = React.useState<readonly Invoice["status"][]>([
         "draft",
         "pending",
@@ -90,6 +92,7 @@ export function InvoiceList() {
                     <Button
                         customType = "primary"
                         nativeBtnProps = {{
+                            onClick: () => setOpenInvoiceFormModal(true),
                             className: "flex gap-x-[16px] items-center py-2 pl-2 pr-4"
                         }}
                     >
@@ -211,6 +214,10 @@ export function InvoiceList() {
                     )
                 }
             </div>
+            <InvoiceFormModal 
+                open = {openInvoiceFormModal}
+                onClose = {() => setOpenInvoiceFormModal(false)}
+            />
         </section>
     );
 }

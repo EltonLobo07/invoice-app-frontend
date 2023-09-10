@@ -4,20 +4,23 @@ import { Button } from "~/src/components/Button";
 import { twStyles } from "~/src/twStyles";
 import { InvoiceStatus } from "~/src/components/InvoiceStatus";
 import { DeepReadonly } from "~/src/types/helpers";
-import { Invoice } from "~/src/types";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { commonTwStyles } from "~/src/components/InvoiceDetails/common";
 import { helpers } from "~/src/helpers";
 import { DeleteModal } from "./DeleteModal";
+import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
+import { InvoiceWithItemId } from "~/src/services/invoiceService";
 
 type Props = {
-    invoice: DeepReadonly<Invoice>,
+    invoice: DeepReadonly<InvoiceWithItemId>,
     title: string,
     onDelete: () => void
 };
 
+type ModalType = "delete" | "edit" | "none";
+
 export function TopView(props: Props) {
-    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+    const [openModalType, setOpenModalType] = React.useState<ModalType>("none");
     const [theme] = useThemeContext();
 
     const lightTheme = theme === "light";
@@ -61,6 +64,9 @@ export function TopView(props: Props) {
                     <li>
                         <Button
                             customType = "plain"
+                            nativeBtnProps = {{
+                                onClick: () => setOpenModalType("edit")
+                            }}
                         >
                             edit
                         </Button>
@@ -69,7 +75,7 @@ export function TopView(props: Props) {
                         <Button
                             customType = "danger"
                             nativeBtnProps = {{
-                                onClick: () => setOpenDeleteModal(true)
+                                onClick: () => setOpenModalType("delete")
                             }}
                         >
                             delete
@@ -116,11 +122,16 @@ export function TopView(props: Props) {
                 />
             </div>     
             <DeleteModal
-                open = {openDeleteModal}
-                onClose = {() => setOpenDeleteModal(false)}
+                open = {openModalType === "delete"}
+                onClose = {() => setOpenModalType("none")}
                 onDelete = {props.onDelete}
                 invoiceId = {props.invoice.id}
-            />                  
+            />    
+            <InvoiceFormModal 
+                open = {openModalType === "edit"}
+                onClose = {() => setOpenModalType("none")}
+                invoiceToEdit = {props.invoice}
+            />              
         </div>
     );
 }

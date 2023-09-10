@@ -1,4 +1,4 @@
-import { Modal } from "~/src/components/Modal";
+import { CustomModal } from "~/src/components/modals/CustomModal";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { helpers } from "~/src/helpers";
 import { twStyles } from "~/src/twStyles";
@@ -18,12 +18,12 @@ export function DeleteModal(props: Props) {
     const lightTheme = theme === "light";
 
     return (
-        <Modal
+        <CustomModal
             open = {props.open}
             onClose = {props.onClose}
             className = "inset-[24px]"
         >
-            <Modal.Panel
+            <CustomModal.Panel
                 className = {helpers.formatClassNames(
                     `
                         rounded-[8px]
@@ -36,7 +36,7 @@ export function DeleteModal(props: Props) {
                     `
                 )}
             >
-                <Modal.Title
+                <CustomModal.Title
                     className = {helpers.formatClassNames(
                         `
                             capitalize
@@ -46,8 +46,8 @@ export function DeleteModal(props: Props) {
                     )}
                 >
                     confirm deletion
-                </Modal.Title>
-                <Modal.Description
+                </CustomModal.Title>
+                <CustomModal.Description
                     className = "absolute"
                 >
                     <VisuallyHidden
@@ -55,7 +55,7 @@ export function DeleteModal(props: Props) {
                     >
                         This will permanently delete the invoice
                     </VisuallyHidden>
-                </Modal.Description>
+                </CustomModal.Description>
                 <p
                     className = {helpers.formatClassNames(
                         `
@@ -88,7 +88,7 @@ export function DeleteModal(props: Props) {
                         delete
                     </Button>
                 </div>
-            </Modal.Panel>
-        </Modal>
+            </CustomModal.Panel>
+        </CustomModal>
     );
 }
