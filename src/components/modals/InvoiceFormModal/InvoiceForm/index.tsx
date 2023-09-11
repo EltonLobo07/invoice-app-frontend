@@ -440,7 +440,7 @@ export function InvoiceForm(props: Props) {
                                     }
                                 ]
                             ),
-                            className: "w-full"
+                            className: "w-full mb-2"
                         }}
                     >
                         add new items

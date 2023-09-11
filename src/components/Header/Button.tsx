@@ -12,7 +12,7 @@ export function Button(props: Props) {
         <button
             type = "button"
             onClick = {props.onClick}
-            className = "px-[20px] tabAndUp:px-[28px] laptopAndUp:px-0 laptopAndUp:py-[20px] relative"
+            className = "px-[20px] tabAndUp:px-[28px] laptopAndUp:px-0 laptopAndUp:py-[20px] relative outline-fig-ds-02"
         >
             <VisuallyHidden>
                 {props.visuallyHiddenText}

@@ -73,7 +73,7 @@ export function Button(props: Props) {
         <button
             {...props.nativeBtnProps}
             className = {twMerge(
-                "rounded-[1.5rem] px-6 py-4 capitalize",
+                "rounded-[1.5rem] px-6 py-4 capitalize outline-fig-ds-02",
                 txtAndBgColor.bgColor,
                 txtAndBgColor.bgColorOnHover,
                 txtAndBgColor.txtColor,
