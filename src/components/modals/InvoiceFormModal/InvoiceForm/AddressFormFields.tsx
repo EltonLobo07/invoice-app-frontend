@@ -1,8 +1,13 @@
 import { helpers } from "~/src/helpers";
 import { LabelledInput } from "~/src/components/modals/InvoiceFormModal/LabelledInput";
+import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/common";
+
+type Address = ReturnType<typeof common.addressInitializer>; 
 
 type Props = {
-    formSubmitBtnCliked: boolean
+    formSubmitBtnCliked: boolean,
+    address: Address,
+    addressSetter: (newAddress: Partial<Address>) => void
 };
 
 export function AddressFormFields(props: Props) {
@@ -20,10 +25,12 @@ export function AddressFormFields(props: Props) {
         >
             <LabelledInput 
                 nativeSpanProps = {{
-                    children: "sender address"
+                    children: "street address"
                 }}
                 nativeInputProps = {{
-                    type: "text"
+                    type: "text",
+                    value: props.address.street,
+                    onChange: e => props.addressSetter({street: e.target.value})
                 }}
                 className = "w-full"
                 _formSubmitBtnClicked = {props.formSubmitBtnCliked}
@@ -42,6 +49,8 @@ export function AddressFormFields(props: Props) {
                     }}
                     nativeInputProps = {{
                         type: "text",
+                        value: props.address.city,
+                        onChange: e => props.addressSetter({city: e.target.value}),
                         className: "w-full"
                     }}
                     className = {labelledInputClassName}
@@ -53,6 +62,8 @@ export function AddressFormFields(props: Props) {
                     }}
                     nativeInputProps = {{
                         type: "text",
+                        value: props.address.postCode,
+                        onChange: e => props.addressSetter({postCode: e.target.value}),
                         className: "w-full"
                     }}
                     className = {labelledInputClassName}
@@ -64,6 +75,8 @@ export function AddressFormFields(props: Props) {
                     }}
                     nativeInputProps = {{
                         type: "text",
+                        value: props.address.country,
+                        onChange: e => props.addressSetter({country: e.target.value}),
                         className: "full"
                     }}
                     className = {labelledInputClassName}

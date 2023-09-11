@@ -69,6 +69,7 @@ export function InvoiceDetails() {
                         invoice = {invoice}
                         title = {title}
                         onDelete = {onDelete}
+                        onSuccessfulInvoiceEdit = {setInvoice}
                     />
                     <MidView 
                         invoice = {invoice}

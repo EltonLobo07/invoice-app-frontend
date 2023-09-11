@@ -9,7 +9,8 @@ import { InvoiceForm } from "~/src/components/modals/InvoiceFormModal/InvoiceFor
 type Props = {
     open: boolean,
     onClose: () => void,
-    invoiceToEdit?: DeepReadonly<InvoiceWithItemId> 
+    invoiceToEdit?: DeepReadonly<InvoiceWithItemId>,
+    onSuccessfulInvoiceEdit?: (editedInvoice: InvoiceWithItemId) => void 
 };
 
 export function InvoiceFormModal(props: Props) {
@@ -52,6 +53,7 @@ export function InvoiceFormModal(props: Props) {
                 <InvoiceForm
                     onCancel = {props.onClose}
                     invoiceToEdit = {props.invoiceToEdit}
+                    onSuccessfulInvoiceEdit = {props.onSuccessfulInvoiceEdit}
                 />
             </div>
         </NativeModal>

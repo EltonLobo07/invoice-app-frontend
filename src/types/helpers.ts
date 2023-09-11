@@ -16,3 +16,8 @@ export type DeepReadonly<T> =
         : T;
 
 export type Branded<TBase, TBrand extends string> = TBase & {[__brand]: TBrand};
+
+export type OptionalKey<
+    TObj extends object,
+    TKey extends keyof TObj
+> = Omit<TObj, TKey> & Partial<Pick<TObj, TKey>>;

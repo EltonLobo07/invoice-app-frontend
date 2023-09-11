@@ -34,10 +34,48 @@ function formatClassNames(classNames: string): string {
     return stack.join("");
 }
 
+function generateRandomNum(min: number, max: number) {
+    return Math.floor(Math.random() * (max + 1 - min) + min);
+}
+
+function generateRandomUpperCaseEngLetter() {
+   return String.fromCodePoint(generateRandomNum("A".codePointAt(0)!, "Z".codePointAt(0)!));
+}
+
+function generateRandomDigit() {
+    return generateRandomNum(0, 9);
+}
+
+function assertInvoiceDate(arg: string): asserts arg is InvoiceDate {
+    if (!Number.isFinite(Date.parse(arg))) {
+        throw new Error("Invalid date string");
+    }
+}
+
+function getDateAfterNumDays(date: Date, numDays: number): Date {
+    const newDate = new Date(date.getTime());
+    newDate.setDate(newDate.getDate() + numDays);
+    return newDate;
+}
+
+function getYearMonthDateStr(date: Date): string {
+    const dateStr = date.toISOString();
+    return dateStr.slice(0, "yyyy-mm-dd".length);
+}
+
+function getInvoiceDate(date: Date): InvoiceDate {
+    return getYearMonthDateStr(date) as InvoiceDate;
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
     getInvoiceItemsTotal,
     convertToDisplayableDateStr,
-    formatClassNames
+    formatClassNames,
+    generateRandomUpperCaseEngLetter,
+    generateRandomDigit,
+    assertInvoiceDate,
+    getDateAfterNumDays,
+    getInvoiceDate
 };

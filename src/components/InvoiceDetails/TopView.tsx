@@ -13,6 +13,7 @@ import { InvoiceWithItemId } from "~/src/services/invoiceService";
 
 type Props = {
     invoice: DeepReadonly<InvoiceWithItemId>,
+    onSuccessfulInvoiceEdit: (updatedInvoice: InvoiceWithItemId) => void,
     title: string,
     onDelete: () => void
 };
@@ -131,6 +132,10 @@ export function TopView(props: Props) {
                 open = {openModalType === "edit"}
                 onClose = {() => setOpenModalType("none")}
                 invoiceToEdit = {props.invoice}
+                onSuccessfulInvoiceEdit = {updatedInvoice => {
+                    setOpenModalType("none");
+                    props.onSuccessfulInvoiceEdit(updatedInvoice);
+                }}
             />              
         </div>
     );

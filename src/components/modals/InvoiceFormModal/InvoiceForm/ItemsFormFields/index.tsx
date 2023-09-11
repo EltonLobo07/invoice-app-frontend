@@ -4,8 +4,13 @@ import { ItemFormField } from "~/src/components/modals/InvoiceFormModal/InvoiceF
 import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/ItemsFormFields/common";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 
+type Items = DeepReadonly<InvoiceWithItemId["items"]>;
+type Item = Items[number];
+
 type Props = {
-    items: DeepReadonly<InvoiceWithItemId["items"]>,
+    items: Items,
+    onItemsChange: (newitems: Items) => void,
+    onItemDelete: (item: Item) => void,
     formSubmitBtnClicked: boolean
 };
 
@@ -42,10 +47,15 @@ export function ItemsFormFields(props: Props) {
                 role = "rowgroup"
             >
                 {
-                    props.items.map(item => (
+                    props.items.map((item, itemNum) => (
                         <ItemFormField
                             key = {item.id} 
-                            item = {item} 
+                            item = {item}
+                            onChange = {newItem => props.onItemsChange(
+                                props.items
+                                    .map((curItem, curItemNum) => curItemNum === itemNum ? newItem : curItem)
+                            )}
+                            onDeleteClick = {() => props.onItemDelete(item)} 
                             formSubmitBtnClicked = {props.formSubmitBtnClicked}
                         />
                     ))

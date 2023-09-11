@@ -19,7 +19,7 @@ export type Invoice = {
     createdAt: InvoiceDate,
     paymentDue: InvoiceDate,
     description: string,
-    paymentTerms: number, 
+    paymentTerms: 1 | 7 | 14 | 30, 
     clientName: string,
     clientEmail: string,
     status: InvoiceStatus,

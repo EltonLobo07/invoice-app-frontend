@@ -6,8 +6,12 @@ import { helpers } from "~/src/helpers";
 import { Delete } from "~/src/components/icons/Delete";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 
+type Item = DeepReadonly<InvoiceWithItemId["items"][number]>;
+
 type Props = {
-    item: DeepReadonly<InvoiceWithItemId["items"][number]>,
+    item: Item,
+    onChange: (newItem: Item) => void,
+    onDeleteClick: () => void,
     formSubmitBtnClicked: boolean
 };
 
@@ -34,6 +38,8 @@ export function ItemFormField(props: Props) {
                     }}
                     nativeInputProps = {{
                         type: "text",
+                        value: props.item.name,
+                        onChange: e => props.onChange({...props.item, name: e.target.value}),
                         className: "w-full"
                     }}
                     className = "flex-grow basis-[13.375rem]"
@@ -53,6 +59,8 @@ export function ItemFormField(props: Props) {
                         }}
                         nativeInputProps = {{
                             type: "number",
+                            value: Math.max(props.item.quantity, 1),
+                            onChange: e => props.onChange({...props.item, quantity: Number(e.target.value)}),
                             className: "w-full"
                         }}
                         _formSubmitBtnClicked = {props.formSubmitBtnClicked}
@@ -64,6 +72,8 @@ export function ItemFormField(props: Props) {
                         }}
                         nativeInputProps = {{
                             type: "number",
+                            value: Math.max(props.item.price, 0),
+                            onChange: e => props.onChange({...props.item, price: Number(e.target.value)}),
                             className: "w-full"
                         }}
                         _formSubmitBtnClicked = {props.formSubmitBtnClicked}
@@ -84,6 +94,7 @@ export function ItemFormField(props: Props) {
                             nativeInputProps = {{
                                 type: "number",
                                 readOnly: true,
+                                value: (props.item.quantity * props.item.price).toFixed(2),
                                 className: helpers.formatClassNames(
                                     `
                                         w-full 
@@ -98,7 +109,8 @@ export function ItemFormField(props: Props) {
                             className = "flex-grow basis-[4.25rem]"
                         />
                         <button
-                            className = "self-end mb-[12px]"
+                            onClick = {props.onDeleteClick}
+                            className = "self-end mb-[20px]"
                         >
                             <Delete
                                 aria-label = "delete item"
