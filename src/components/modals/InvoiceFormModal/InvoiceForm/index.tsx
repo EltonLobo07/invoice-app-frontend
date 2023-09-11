@@ -122,7 +122,10 @@ export function InvoiceForm(props: Props) {
                 if (status === undefined) {
                     throw new Error("status cannot be undefined when saving changes");
                 }
-                const updatedInvoice = await invoiceService.updateInvoice({...invoiceObj, status});
+                const updatedInvoice = await invoiceService.updateInvoice({
+                    ...invoiceObj, 
+                    status: status === "draft" ? "pending" : status
+                });
                 props.onInvoiceEditSuccess?.(updatedInvoice);
             }
             catch(error) {
