@@ -19,10 +19,10 @@ import { Invoice } from "~/src/types";
 import { v4 as uuidv4 } from "uuid";
 
 type Props = {
+    onCancel: () => void,
     invoiceToEdit?: DeepReadonly<InvoiceWithItemId>,
     onInvoiceEditSuccess?: (updatedInvoice: InvoiceWithItemId) => void,
-    onCreateInvoiceSuccess?: (createdInvoice: InvoiceWithItemId) => void,
-    onCancel: () => void
+    onInvoiceSaveSuccess?: (createdInvoice: InvoiceWithItemId) => void
 };
 
 type Address = DeepReadonly<InvoiceWithItemId["clientAddress"]>;
@@ -137,11 +137,22 @@ export function InvoiceForm(props: Props) {
             try {
                 const invoiceObj = createInvoiceFromFields();
                 const createdInvoice = await invoiceService.addInvoice({...invoiceObj, status: "pending"});
-                props.onCreateInvoiceSuccess?.(createdInvoice);
+                props.onInvoiceSaveSuccess?.(createdInvoice);
             }
             catch(error) {
                 console.log(error);
             }
+        }
+    };
+
+    const handleSaveAsDraft = async () => {
+        try {
+            const invoiceObj = createInvoiceFromFields();
+            const draftInvoice = await invoiceService.addInvoice({...invoiceObj, status: "draft"});
+            props.onInvoiceSaveSuccess?.(draftInvoice);
+        }
+        catch(error) {
+            console.log(error);
         }
     };
 
@@ -196,6 +207,7 @@ export function InvoiceForm(props: Props) {
                         customType = "plain-darker"
                         nativeBtnProps = {{
                             type: "button",
+                            onClick: handleSaveAsDraft,
                             className: "normal-case ml-auto whitespace-nowrap"
                         }}
                     >

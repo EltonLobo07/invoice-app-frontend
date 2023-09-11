@@ -24,6 +24,11 @@ export function InvoiceList() {
     ]);
     const [theme] = useThemeContext();
 
+    const handleInvoiceSaveSuccess = (invoice: DeepReadonly<Invoice>) => {
+        setOpenInvoiceFormModal(false);
+        setInvoices([...invoices, invoice]);
+    };
+
     const filteredInvoices = invoices.filter(invoice => filterBy.includes(invoice.status));
     const noInvoices = filteredInvoices.length === 0;
     const sectionTitle = "invoices";
@@ -217,10 +222,7 @@ export function InvoiceList() {
             <InvoiceFormModal 
                 open = {openInvoiceFormModal}
                 onClose = {() => setOpenInvoiceFormModal(false)}
-                onInvoiceSaveAndSendSucces = {createdInvoice => {
-                    setOpenInvoiceFormModal(false);
-                    setInvoices([...invoices, createdInvoice]);
-                }}
+                onInvoiceSaveSucces = {handleInvoiceSaveSuccess}
             />
         </section>
     );
