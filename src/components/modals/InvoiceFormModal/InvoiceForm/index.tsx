@@ -63,7 +63,30 @@ export function InvoiceForm(props: Props) {
     const [paymentTerm, setPaymentTerm] = React.useState<Invoice["paymentTerms"]>(initialPaymentTerm); 
     const [projectDescription, setProjectDescription] = React.useState(initialProjectDescription);
     const [items, setItems] = React.useState<Items>(initialItems);
+    const [isIntersecting, setIsIntersecting] = React.useState(false);
     const [theme] = useThemeContext();
+    const intersectionObserverTargetRef = React.useRef<HTMLDivElement | null>(null);
+
+    React.useEffect(() => {
+        const intersectionObserverTarget = intersectionObserverTargetRef.current;
+        if (!intersectionObserverTarget) {
+            return;
+        }
+        const observer = new IntersectionObserver(
+            entries => {
+                const firstEntry = entries[0];
+                setIsIntersecting(firstEntry.isIntersecting);
+            },
+            {
+                threshold: 0.1
+            }
+        );  
+        observer.observe(intersectionObserverTarget);
+        return () => {
+            observer.unobserve(intersectionObserverTarget);
+        };
+    }, []);
+
     const lightTheme = theme === "light";
     const horizontalPadding = "px-24px tabAndUp:px-56px";
     const fromToLegendClassNames = `text-fig-ds-01 mb-6 ${twStyles.fontFigHeadingSVar}`;
@@ -256,7 +279,7 @@ export function InvoiceForm(props: Props) {
 
     return (
         <form
-            className = "w-full h-full overflow-y-auto flex flex-col capitalize"
+            className = "w-full h-full overflow-y-auto flex flex-col capitalize relative"
         >
             <GoBackBtn 
                 onClick = {props.onCancel}
@@ -304,6 +327,7 @@ export function InvoiceForm(props: Props) {
                     `
                         flex-grow overflow-y-auto
                         flex flex-col
+                        pb-[4px]
                         ${horizontalPadding}
                     `
                 )}
@@ -478,12 +502,35 @@ export function InvoiceForm(props: Props) {
                                     }
                                 ]
                             ),
-                            className: "w-full mb-2"
+                            className: "w-full"
                         }}
                     >
                         add new items
                     </Button>
                 </fieldset>
+                <div
+                    ref = {intersectionObserverTargetRef}
+                    className = "h-2 w-full bg-inherit"
+                ></div>
+            </div>
+            <div
+                className = "relative h-[1px] w-full bg-transparent"
+            >
+                <div
+                    className = {helpers.formatClassNames(
+                        `
+                            h-[200px]
+                            absolute left-0 right-0 top-0 -translate-y-[100%]
+                            pointer-events-none 
+                            ${
+                                isIntersecting 
+                                ? "bg-transparent" 
+                                : "bg-[linear-gradient(180deg,rgba(0,0,0,0.0001)_0%,_rgba(0,0,0,0.1)_100%)]"
+                            }
+                        `
+                    )}
+                >
+                </div>
             </div>
             <div
                 role = "alert"
@@ -506,7 +553,8 @@ export function InvoiceForm(props: Props) {
                         relative
                         flex
                         py-5 tabAndUp:py-8
-                        tabAndUp:rounded-r-20px
+                        tabAndUp:rounded-br-[20px]
+                        rounded-t-[20px]
                         ${lightTheme ? "bg-white" : "bg-fig-ds-12"}
                         ${horizontalPadding}
                         ${actionBtnGapClassName}
