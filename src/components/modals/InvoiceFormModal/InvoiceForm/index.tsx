@@ -10,7 +10,9 @@ import { InvoiceId } from "~/src/components/InvoiceId";
 import { AddressFormFields } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/AddressFormFields";
 import { LabelledInput } from "~/src/components/modals/InvoiceFormModal/LabelledInput";
 import { Button } from "~/src/components/Button";
-import { ItemsFormFields } from "./ItemsFormFields";
+import { ItemsFormFields } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/ItemsFormFields";
+import { PaymentTermsSelect } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/PaymentTermsSelect";
+import { SpanLabel } from "~/src/components/modals/InvoiceFormModal/SpanLabel";
 
 type Props = {
     invoiceToEdit?: DeepReadonly<InvoiceWithItemId>
@@ -196,20 +198,17 @@ export function InvoiceForm(props: Props) {
                 <fieldset
                     className = {helpers.formatClassNames(
                         `
-                            flex flex-col gap-y-6
+                            relative
+                            flex gap-6 flex-wrap
                             ${commonMarginTop}
                         `
                     )}
                 >
-                    <legend
-                        className = "relative"
-                    >
-                        <VisuallyHidden
-                            useSpanTag
-                        >
-                            other details
-                        </VisuallyHidden>
-                    </legend>
+                    <VisuallyHidden>
+                        <legend>
+                            basic details
+                        </legend>
+                    </VisuallyHidden>
                     <LabelledInput 
                         nativeSpanProps = {{
                             children: "invoice date"
@@ -221,7 +220,19 @@ export function InvoiceForm(props: Props) {
                             }
                         }}
                         _formSubmitBtnClicked = {formSubmitBtnClicked}
+                        className = "basis-60 flex-grow"
                     />
+                    <label
+                        className = "basis-60 flex-grow flex flex-col gap-y-2"
+                    >
+                        <SpanLabel>
+                            payment terms
+                        </SpanLabel>
+                        <PaymentTermsSelect 
+                            value = {1}
+                            onChange = {() => {}}
+                        />
+                    </label>
                     <LabelledInput 
                         nativeSpanProps = {{
                             children: "project description"
@@ -230,6 +241,7 @@ export function InvoiceForm(props: Props) {
                             type: "text"
                         }}
                         _formSubmitBtnClicked = {formSubmitBtnClicked}
+                        className = "w-full"
                     />
                 </fieldset>
                 <fieldset
@@ -239,19 +251,50 @@ export function InvoiceForm(props: Props) {
                         className = {helpers.formatClassNames(
                             `
                                 ${twStyles.fontFigHeadingS}
+                                relative
                                 text-stone-wash
                                 inline-block mb-5 tabAndUp:mb-4
                             `
                         )}
                     >
-                        item list
+                        <VisuallyHidden
+                            useSpanTag
+                        >
+                            item table
+                        </VisuallyHidden>
+                        <span
+                            aria-hidden
+                            className = "inline-block"
+                        >
+                            item list
+                        </span>
                     </legend>
-                    <ItemsFormFields />
+                    <ItemsFormFields
+                        items = {[]}
+                        formSubmitBtnClicked = {formSubmitBtnClicked}
+                    />
+                    {
+                        (props.invoiceToEdit?.items.length ?? 0 === 0) && (
+                            <div
+                                className = {helpers.formatClassNames(
+                                    `
+                                        mb-4
+                                        normal-case
+                                        flex justify-center
+                                        ${twStyles.fontFigBetweenBodyAndHeading}
+                                        ${lightTheme ? "text-black" : "text-white"}
+                                    `
+                                )}
+                            >
+                                No item added
+                            </div>
+                        )
+                    }
                     <Button
                         customType = "secondary"
                         nativeBtnProps = {{
                             type: "button",
-                            className: "w-full mt-12 tabAndUp:mt-4"
+                            className: "w-full"
                         }}
                     >
                         add new items

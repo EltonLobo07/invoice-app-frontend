@@ -43,7 +43,7 @@ export function InvoiceFormModal(props: Props) {
                         ${commonBgColor}
                         w-full tabAndUp:w-[38.5rem] laptopAndUp:w-[45rem]
                         max-w-full
-                        h-full overflow-y-auto
+                        h-full overflow-y-hidden
                         pt-32px tabAndUp:pt-56px
                         tabAndUp:rounded-r-[20px]
                     `

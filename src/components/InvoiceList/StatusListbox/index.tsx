@@ -40,7 +40,7 @@ export function StatusListbox(props: Props) {
                 ({ open }) => (
                     <>
                         <Listbox.Button
-                            className = "relative"
+                            className = "relative outline-fig-ds-02"
                         >
                             <VisuallyHidden>
                                 toggle status filter selection visibility
@@ -80,6 +80,7 @@ export function StatusListbox(props: Props) {
                                 p-24px 
                                 rounded-[8px] 
                                 shadow-[0_10px_20px_0_#48549F40]
+                                outline-fig-ds-02
                                 ${theme === "light" ? "bg-white" : "bg-fig-ds-04"}
                                 `
                             )}
