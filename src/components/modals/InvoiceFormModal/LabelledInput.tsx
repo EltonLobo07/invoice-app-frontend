@@ -18,7 +18,7 @@ export function LabelledInput(props: Props) {
         ...labelProps
     } = props;
 
-    const showRequired = _formSubmitBtnClicked && !nativeInputProps?.value;
+    const showRequired = _formSubmitBtnClicked && !String(nativeInputProps?.value);
     const showRequiredTxtColor = "text-fig-ds-09";
     const spanProps = nativeSpanProps ?? {};
     spanProps.className = twMerge(

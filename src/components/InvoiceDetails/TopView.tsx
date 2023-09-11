@@ -132,7 +132,7 @@ export function TopView(props: Props) {
                 open = {openModalType === "edit"}
                 onClose = {() => setOpenModalType("none")}
                 invoiceToEdit = {props.invoice}
-                onSuccessfulInvoiceEdit = {updatedInvoice => {
+                onInvoiceEditSuccess = {updatedInvoice => {
                     setOpenModalType("none");
                     props.onSuccessfulInvoiceEdit(updatedInvoice);
                 }}

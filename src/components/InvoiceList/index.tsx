@@ -217,6 +217,10 @@ export function InvoiceList() {
             <InvoiceFormModal 
                 open = {openInvoiceFormModal}
                 onClose = {() => setOpenInvoiceFormModal(false)}
+                onInvoiceSaveAndSendSucces = {createdInvoice => {
+                    setOpenInvoiceFormModal(false);
+                    setInvoices([...invoices, createdInvoice]);
+                }}
             />
         </section>
     );

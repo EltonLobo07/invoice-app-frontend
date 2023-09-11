@@ -20,7 +20,8 @@ import { v4 as uuidv4 } from "uuid";
 
 type Props = {
     invoiceToEdit?: DeepReadonly<InvoiceWithItemId>,
-    onSuccessfulInvoiceEdit?: (updatedInvoice: InvoiceWithItemId) => void
+    onInvoiceEditSuccess?: (updatedInvoice: InvoiceWithItemId) => void,
+    onCreateInvoiceSuccess?: (createdInvoice: InvoiceWithItemId) => void,
     onCancel: () => void
 };
 
@@ -113,7 +114,6 @@ export function InvoiceForm(props: Props) {
     };
 
     const handleSaveChange = async () => {
-        console.log("handleSaveChange called");
         setFormSubmitBtnClicked(true);
         if (areAllFieldsFilled()) {
             try {
@@ -123,7 +123,21 @@ export function InvoiceForm(props: Props) {
                     throw new Error("status cannot be undefined when saving changes");
                 }
                 const updatedInvoice = await invoiceService.updateInvoice({...invoiceObj, status});
-                props.onSuccessfulInvoiceEdit?.(updatedInvoice);
+                props.onInvoiceEditSuccess?.(updatedInvoice);
+            }
+            catch(error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleSaveAndSend = async () => {
+        setFormSubmitBtnClicked(true);
+        if (areAllFieldsFilled()) {
+            try {
+                const invoiceObj = createInvoiceFromFields();
+                const createdInvoice = await invoiceService.addInvoice({...invoiceObj, status: "pending"});
+                props.onCreateInvoiceSuccess?.(createdInvoice);
             }
             catch(error) {
                 console.log(error);
@@ -190,7 +204,8 @@ export function InvoiceForm(props: Props) {
                     <Button
                         customType = "primary"
                         nativeBtnProps = {{
-                            type: "submit",
+                            type: "button",
+                            onClick: () => handleSaveAndSend(),
                             className: "whitespace-nowrap"
                         }}
                     >
