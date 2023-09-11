@@ -44,15 +44,25 @@ function generateRandomInvoiceId(): InvoiceWithItemId["id"] {
 }
 
 export function InvoiceForm(props: Props) {
-    const [formSubmitBtnClicked, setFormSubmitBtnClicked] = React.useState(false);
-    const [senderAddress, setSenderAddress] = useObjectState<Address>(props.invoiceToEdit?.senderAddress ?? common.addressInitializer);
-    const [clientAddress, setClientAddress] = useObjectState<Address>(props.invoiceToEdit?.clientAddress ?? common.addressInitializer);
-    const [clientName, setClientName] = React.useState(props.invoiceToEdit?.clientName ?? "");
-    const [clientEmail, setClientEmail] = React.useState(props.invoiceToEdit?.clientEmail ?? "");
-    const [invoiceDate, setInvoiceDate] = React.useState(() => props.invoiceToEdit?.createdAt ?? new Date().toISOString().slice(0, "yyyy-mm-dd".length));
-    const [paymentTerm, setPaymentTerm] = React.useState<Invoice["paymentTerms"]>(props.invoiceToEdit?.paymentTerms ?? 1); 
-    const [projectDescription, setProjectDescription] = React.useState(props.invoiceToEdit?.description ?? "");
-    const [items, setItems] = React.useState<Items>(props.invoiceToEdit?.items ?? []);
+    const initialFormSubmitBtnClicked = () => false;
+    const initialSenderAddress = () => props.invoiceToEdit?.senderAddress ?? common.addressInitializer();
+    const initialClientAddress = () => props.invoiceToEdit?.clientAddress ?? common.addressInitializer();
+    const initialClientName = () => props.invoiceToEdit?.clientName ?? "";
+    const initialClientEmail = () => props.invoiceToEdit?.clientEmail ?? "";
+    const initialInvoiceDate = () => props.invoiceToEdit?.createdAt ?? new Date().toISOString().slice(0, "yyyy-mm-dd".length);
+    const initialPaymentTerm = () => props.invoiceToEdit?.paymentTerms ?? 1;
+    const initialProjectDescription = () => props.invoiceToEdit?.description ?? "";
+    const initialItems = () => props.invoiceToEdit?.items ?? [];
+
+    const [formSubmitBtnClicked, setFormSubmitBtnClicked] = React.useState(initialFormSubmitBtnClicked);
+    const [senderAddress, setSenderAddress] = useObjectState<Address>(initialSenderAddress);
+    const [clientAddress, setClientAddress] = useObjectState<Address>(initialClientAddress);
+    const [clientName, setClientName] = React.useState(initialClientName);
+    const [clientEmail, setClientEmail] = React.useState(initialClientEmail);
+    const [invoiceDate, setInvoiceDate] = React.useState(initialInvoiceDate);
+    const [paymentTerm, setPaymentTerm] = React.useState<Invoice["paymentTerms"]>(initialPaymentTerm); 
+    const [projectDescription, setProjectDescription] = React.useState(initialProjectDescription);
+    const [items, setItems] = React.useState<Items>(initialItems);
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
     const horizontalPadding = "px-24px tabAndUp:px-56px";
@@ -159,6 +169,18 @@ export function InvoiceForm(props: Props) {
         }
     };
 
+    const handleDiscard = () => {
+        setFormSubmitBtnClicked(initialFormSubmitBtnClicked);
+        setSenderAddress(initialSenderAddress());
+        setClientAddress(initialClientAddress());
+        setClientName(initialClientName());
+        setClientEmail(initialClientEmail());
+        setInvoiceDate(initialInvoiceDate());
+        setPaymentTerm(initialPaymentTerm());
+        setProjectDescription(initialProjectDescription());
+        setItems(initialItems());
+    };
+
     const actionBtnGapClassName = "gap-x-[8px] gap-y-2";
     let actionBtnsJSX: JSX.Element;
     if (props.invoiceToEdit) {
@@ -192,6 +214,7 @@ export function InvoiceForm(props: Props) {
                     customType = "plain"
                     nativeBtnProps = {{
                         type: "button",
+                        onClick: handleDiscard,
                         className: "self-center"
                     }}
                 >
