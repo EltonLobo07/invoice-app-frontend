@@ -70,6 +70,7 @@ export function InvoiceDetails() {
                         title = {title}
                         onDelete = {onDelete}
                         onSuccessfulInvoiceEdit = {setInvoice}
+                        onMarkAsPaidSuccess = {() => setInvoice({...invoice, status: "paid"})}
                     />
                     <MidView 
                         invoice = {invoice}

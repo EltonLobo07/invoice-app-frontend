@@ -9,13 +9,14 @@ import { commonTwStyles } from "~/src/components/InvoiceDetails/common";
 import { helpers } from "~/src/helpers";
 import { DeleteModal } from "./DeleteModal";
 import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
-import { InvoiceWithItemId } from "~/src/services/invoiceService";
+import { InvoiceWithItemId, invoiceService } from "~/src/services/invoiceService";
 
 type Props = {
     invoice: DeepReadonly<InvoiceWithItemId>,
     onSuccessfulInvoiceEdit: (updatedInvoice: InvoiceWithItemId) => void,
     title: string,
-    onDelete: () => void
+    onDelete: () => void,
+    onMarkAsPaidSuccess: () => void
 };
 
 type ModalType = "delete" | "edit" | "none";
@@ -26,6 +27,16 @@ export function TopView(props: Props) {
 
     const lightTheme = theme === "light";
     const greedyFlexItem = <div className = "flex-grow"></div>;
+
+    const handleMarkAsPaid = async () => {
+        try {
+            await invoiceService.updateInvoice({...props.invoice, status: "paid"});
+            props.onMarkAsPaidSuccess();
+        }   
+        catch(error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div
@@ -88,6 +99,8 @@ export function TopView(props: Props) {
                                 <Button
                                     customType = "primary"
                                     nativeBtnProps = {{
+                                        type: "button",
+                                        onClick: handleMarkAsPaid,
                                         className: "normal-case whitespace-nowrap"
                                     }}
                                 >
