@@ -9,6 +9,7 @@ import { helpers } from "~/src/helpers";
 import { Loading } from "~/src/components/Loading";
 import { NotFound } from "~/src/components/InvoiceDetails/NotFound";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
+import { twStyles } from "~/src/twStyles";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
@@ -22,7 +23,9 @@ export function InvoiceDetails() {
         }
         void (async () => {
             try {
-                setInvoice(await invoiceService.getInvoiceById(invoiceId, userToken.jsonWebToken));
+                const invoice = await invoiceService.getInvoiceById(invoiceId, userToken.jsonWebToken);
+                await helpers.getPromiseThatResolvesAfterXSeconds(2500);
+                setInvoice(invoice);
             }
             catch(error) {
                 console.log(error);
@@ -41,7 +44,18 @@ export function InvoiceDetails() {
 
     let contentNode: React.ReactNode = null;
     if (invoice === undefined) {
-        contentNode = <Loading />;
+        contentNode = (
+            <Loading
+                message = "fetching invoice details"
+            >
+                <span
+                    aria-hidden
+                    className = {twStyles.fontFigBody}
+                >
+                    Fetching invoice details
+                </span>
+            </Loading>
+        );
     } else if (invoice === null) {
         contentNode = <NotFound />;
     } else {

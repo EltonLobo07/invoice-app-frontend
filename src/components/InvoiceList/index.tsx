@@ -15,8 +15,10 @@ import { helpers } from "~/src/helpers";
 import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { Navigate } from "react-router-dom";
+import { Loading } from "~/src/components/Loading";
 
 export function InvoiceList() {
+    const [initialFetchComplete, setinitialFetchComplete] = React.useState(false);
     const [invoices, setInvoices] = React.useState<readonly DeepReadonly<Invoice>[]>([]);
     const [openInvoiceFormModal, setOpenInvoiceFormModal] = React.useState(false);
     const [filterBy, setFilterBy] = React.useState<readonly Invoice["status"][]>([
@@ -48,10 +50,15 @@ export function InvoiceList() {
         }
         void (async () => {
             try {
-                setInvoices(await invoiceService.getInvoices(userToken.jsonWebToken));
+                const invoices = await invoiceService.getInvoices(userToken.jsonWebToken);
+                await helpers.getPromiseThatResolvesAfterXSeconds(2500);
+                setInvoices(invoices);
             }
             catch(error) {
                 console.log(error);
+            }
+            finally {
+                setinitialFetchComplete(true);
             }
         })();
     }, [userToken]);
@@ -61,6 +68,95 @@ export function InvoiceList() {
             <Navigate 
                 to = "/login"
             />
+        );
+    }
+    
+    let listJSX: JSX.Element;
+    if (!initialFetchComplete) {
+        const loadingMessage = "Fetching invoices";
+        listJSX = (
+            <Loading
+                message = {loadingMessage}
+            >
+                <span
+                    aria-hidden
+                    className = {twStyles.fontFigBody}
+                >
+                    {loadingMessage}
+                </span>
+            </Loading>
+        );
+    } else if (noInvoices) {
+        listJSX = (
+            <div
+                className = "flex flex-col overflow-y-auto gap-y-[42px] tabAndUp:gap-y-[66px] my-auto w-full items-center py-2"
+            >
+                <img 
+                    src = {IllustrationEmpty}
+                    alt = ""
+                    className = "w-48 h-40"
+                />
+                <div
+                    className = "flex flex-col gap-y-6 text-center"
+                >
+                    <span
+                        className = {`
+                            ${twStyles.fontFigHeadingM}
+                        `}
+                    >
+                        There is nothing here
+                    </span>
+                    <p
+                        className = {helpers.formatClassNames(
+                            `
+                            flex flex-col
+                            ${twStyles.fontFigBodyVar}
+                            ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
+                            `
+                        )}
+                    >
+                        <span>
+                            Create an invoice by clicking the
+                        </span> 
+                        <span>
+                            <span
+                                className = {twMerge(
+                                    "capitalize",
+                                    twStyles.fontFigBodyVar,
+                                    "font-bold"
+                                )}
+                            >
+                                <span
+                                    className = "tabAndUp:hidden"
+                                >
+                                    {"new "}
+                                </span>
+                                <span
+                                    className = "hidden tabAndUp:inline"
+                                >
+                                    {"new invoice "}
+                                </span>
+                            </span>
+                            button and get started
+                        </span>
+                    </p>
+                </div>
+            </div>
+        );
+    } else {
+        listJSX = (
+            <ol
+                className = "h-full overflow-y-auto flex flex-col gap-y-4 p-[4px]"
+            >
+                {
+                    filteredInvoices.map(filteredInvoice => (
+                        <InvoiceListItem 
+                            key = {filteredInvoice.id}
+                            invoice = {filteredInvoice}
+                        />
+                    ))
+                }
+            </ol>         
         );
     }
 
@@ -154,84 +250,13 @@ export function InvoiceList() {
             <div
                 className = {helpers.formatClassNames(
                     `
-                    flex-grow overflow-y-auto 
-                    ${helpers.passIfTrueElseEmpty(noInvoices, "flex")}
+                        flex-grow overflow-y-auto 
+                        pb-[8px]
+                        ${helpers.passIfTrueElseEmpty(noInvoices, "flex")}
                     `
                 )}
             >
-                {
-                    noInvoices 
-                    ? (
-                        <div
-                            className = "flex flex-col overflow-y-auto gap-y-[42px] tabAndUp:gap-y-[66px] my-auto w-full items-center py-2"
-                        >
-                            <img 
-                                src = {IllustrationEmpty}
-                                alt = ""
-                                className = "w-48 h-40"
-                            />
-                            <div
-                                className = "flex flex-col gap-y-6 text-center"
-                            >
-                                <span
-                                    className = {`
-                                        ${twStyles.fontFigHeadingM}
-                                    `}
-                                >
-                                    There is nothing here
-                                </span>
-                                <p
-                                    className = {helpers.formatClassNames(
-                                        `
-                                        flex flex-col
-                                        ${twStyles.fontFigBodyVar}
-                                        ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
-                                        `
-                                    )}
-                                >
-                                    <span>
-                                        Create an invoice by clicking the
-                                    </span> 
-                                    <span>
-                                        <span
-                                            className = {twMerge(
-                                                "capitalize",
-                                                twStyles.fontFigBodyVar,
-                                                "font-bold"
-                                            )}
-                                        >
-                                            <span
-                                                className = "tabAndUp:hidden"
-                                            >
-                                                {"new "}
-                                            </span>
-                                            <span
-                                                className = "hidden tabAndUp:inline"
-                                            >
-                                                {"new invoice "}
-                                            </span>
-                                        </span>
-                                        button and get started
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    )
-                    : (
-                        <ol
-                            className = "h-full overflow-y-auto flex flex-col gap-y-4 p-[4px]"
-                        >
-                            {
-                                filteredInvoices.map(filteredInvoice => (
-                                    <InvoiceListItem 
-                                        key = {filteredInvoice.id}
-                                        invoice = {filteredInvoice}
-                                    />
-                                ))
-                            }
-                        </ol>
-                    )
-                }
+                {listJSX}
             </div>
             <InvoiceFormModal 
                 open = {openInvoiceFormModal}

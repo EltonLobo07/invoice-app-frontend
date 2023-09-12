@@ -22,32 +22,26 @@ export function App() {
 	const [theme, setTheme] = React.useState<Theme>("light");
 	// Maybe I'll add the ability to switch currency
 	const [currency] = React.useState<Currency>("£");
-	const [userToken, setUserToken] = React.useState<UserToken | undefined | null>();
-
-	React.useEffect(() => {
+	const [userToken, setUserToken] = React.useState<UserToken | null>(() => {
 		const userTokenInLs = window.localStorage.getItem(USER_TOKEN_LS_KEY);
 		if (userTokenInLs === null) {
-			setUserToken(null);
-		} else {
-			try {
-				console.log("userTokenInLs:", userTokenInLs);
-				const parsedUserToken = JSON.parse(userTokenInLs);
-				assertUserToken(parsedUserToken);
-				setTimeout(() => {
-					setUserToken(parsedUserToken);
-				}, 5000);
-			}
-			catch(error) {
-				console.log(error);
-				setUserToken(null);
-			}
+			return null;
 		}
-	}, []);
+		let res: UserToken | null;
+		try {
+			const parsedUserToken = JSON.parse(userTokenInLs);
+			assertUserToken(parsedUserToken);
+			res = parsedUserToken;
+		}
+		catch(error) {
+			console.log(error);
+			res = null;
+		}
+		return res;
+	});
 
 	React.useEffect(() => {
-		if (userToken !== undefined) {
-			window.localStorage.setItem(USER_TOKEN_LS_KEY, JSON.stringify(userToken));
-		}
+		window.localStorage.setItem(USER_TOKEN_LS_KEY, JSON.stringify(userToken));
 	}, [userToken]);
 
 	return (

@@ -121,6 +121,10 @@ function isValidInvoiceId(possibleInvoiceId: string) {
 }
 */
 
+function getPromiseThatResolvesAfterXSeconds(x: number = 5000): Promise<null> {
+    return new Promise(resolve => setTimeout(() => resolve(null), x));
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
@@ -133,5 +137,6 @@ export const helpers = {
     getDateAfterNumDays,
     getInvoiceDate,
     isStrEmpty,
-    getAtMostTwoLettersFromName
+    getAtMostTwoLettersFromName,
+    getPromiseThatResolvesAfterXSeconds
 };

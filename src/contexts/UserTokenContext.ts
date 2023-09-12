@@ -22,6 +22,6 @@ export function assertUserToken(possibleUserToken: unknown): asserts possibleUse
 
 type UserTokenOrNull = UserToken | null;
 
-type UserTokenValueAndSetter = [UserTokenOrNull | undefined, (arg: UserTokenOrNull) => void];
+type UserTokenValueAndSetter = [UserTokenOrNull, (arg: UserTokenOrNull) => void];
 
 export const UserTokenContext = React.createContext<UserTokenValueAndSetter | null>(null);

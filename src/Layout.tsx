@@ -2,8 +2,6 @@ import React from "react";
 import { Header } from "~/src/components/Header";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { helpers } from "~/src/helpers";
-import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
-import { Loading } from "~/src/components/Loading";
 
 type Props = {
     children: React.ReactNode
@@ -11,14 +9,6 @@ type Props = {
 
 export function Layout(props: Props) {
     const [theme] = useThemeContext();
-    const [userToken] = useUserTokenContext();
-
-    let content: React.ReactNode;
-    if (userToken === undefined) {
-        content = <Loading />;
-    } else {
-        content = props.children;
-    }
 
     /*
         laptopAndUp:px-128px is a guard for the content and header to never overlap 
@@ -44,7 +34,7 @@ export function Layout(props: Props) {
                 <main
                     className = "h-full w-[45.625rem] max-w-full mx-auto"
                 >
-                    {content}
+                    {props.children}
                 </main>
             </div>
         </div>
