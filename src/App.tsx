@@ -4,7 +4,6 @@ import { Theme, ThemeContext } from "~/src/contexts/ThemeContext";
 import { Layout } from "~/src/Layout";
 import { InvoiceList } from "~/src/components/InvoiceList";
 import { InvoiceDetails } from "~/src/components/InvoiceDetails";
-import { NotFound } from "~/src/components/NotFound";
 import { Login } from "~/src/components/auth/Login";
 import { Signup } from "~/src/components/auth/Signup";
 import { 
@@ -75,10 +74,6 @@ export function App() {
 								<Route 
 									path = "signup"
 									element = {<Signup />}
-								/>
-								<Route 
-									path = "not-found"
-									element = {<NotFound />}
 								/>
 								<Route 
 									path = ":invoiceId"

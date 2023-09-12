@@ -71,6 +71,20 @@ function isStrEmpty(arg: string) {
     return arg.length === 0;
 }
 
+function getAtMostTwoLettersFromName(name: string) {
+    const [firstName, lastName] = name.split(" ");
+    const firstLetter = firstName[0];
+    const secondLetter = (
+        lastName === undefined
+        ? firstName.length > 1
+          ? firstName[1]
+          : ""
+        : lastName[0]
+    );
+    return `${firstLetter}${secondLetter}`.toUpperCase();
+}
+
+/*
 function chIsAnUpperEnglishCaseLetter(ch: string) {
     return ch.length === 1 && ch >= "A" && ch <= "Z";
 }
@@ -97,6 +111,7 @@ function isAStrOfDigits(arg: string) {
     return true;
 }
 
+
 function isValidInvoiceId(possibleInvoiceId: string) {
     return (
         possibleInvoiceId.length === 6 &&
@@ -104,6 +119,7 @@ function isValidInvoiceId(possibleInvoiceId: string) {
         isAStrOfDigits(possibleInvoiceId.slice(3))
     );
 }
+*/
 
 export const helpers = {
     passIfTrueElseEmpty,
@@ -117,5 +133,5 @@ export const helpers = {
     getDateAfterNumDays,
     getInvoiceDate,
     isStrEmpty,
-    isValidInvoiceId
+    getAtMostTwoLettersFromName
 };

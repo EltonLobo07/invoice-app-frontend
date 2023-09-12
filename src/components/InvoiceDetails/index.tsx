@@ -7,7 +7,7 @@ import { TopView } from "~/src/components/InvoiceDetails/TopView";
 import { MidView } from "~/src/components/InvoiceDetails/MidView";
 import { helpers } from "~/src/helpers";
 import { Loading } from "~/src/components/Loading";
-import { NotFound } from "~/src/components/NotFound";
+import { NotFound } from "~/src/components/InvoiceDetails/NotFound";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 
 export function InvoiceDetails() {
