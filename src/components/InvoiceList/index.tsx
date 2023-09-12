@@ -13,6 +13,8 @@ import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { twMerge } from "tailwind-merge";
 import { helpers } from "~/src/helpers";
 import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
+import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
+import { Navigate } from "react-router-dom";
 
 export function InvoiceList() {
     const [invoices, setInvoices] = React.useState<readonly DeepReadonly<Invoice>[]>([]);
@@ -23,6 +25,7 @@ export function InvoiceList() {
         "paid"
     ]);
     const [theme] = useThemeContext();
+    const [userToken] = useUserTokenContext();
 
     const handleInvoiceSaveSuccess = (invoice: DeepReadonly<Invoice>) => {
         setOpenInvoiceFormModal(false);
@@ -40,15 +43,26 @@ export function InvoiceList() {
     }
 
     React.useEffect(() => {
+        if (!userToken) {
+            return;
+        }
         void (async () => {
             try {
-                setInvoices(await invoiceService.getInvoices());
+                setInvoices(await invoiceService.getInvoices(userToken.jsonWebToken));
             }
             catch(error) {
                 console.log(error);
             }
         })();
-    }, []);
+    }, [userToken]);
+
+    if (!userToken) {
+        return (
+            <Navigate 
+                to = "/login"
+            />
+        );
+    }
 
     return (
         <section

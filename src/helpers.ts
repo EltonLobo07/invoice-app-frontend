@@ -71,6 +71,40 @@ function isStrEmpty(arg: string) {
     return arg.length === 0;
 }
 
+function chIsAnUpperEnglishCaseLetter(ch: string) {
+    return ch.length === 1 && ch >= "A" && ch <= "Z";
+}
+
+function isAStrOfUpperEnglishLetters(arg: string) {
+    for (const ch of arg) {
+        if (!chIsAnUpperEnglishCaseLetter(ch)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function chIsADigit(ch: string) {
+    return ch.length === 1 && ch >= "0" && ch <= "9";
+}
+
+function isAStrOfDigits(arg: string) {
+    for (const ch of arg) {
+        if (!chIsADigit(ch)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isValidInvoiceId(possibleInvoiceId: string) {
+    return (
+        possibleInvoiceId.length === 6 &&
+        isAStrOfUpperEnglishLetters(possibleInvoiceId.slice(0, 3)) &&
+        isAStrOfDigits(possibleInvoiceId.slice(3))
+    );
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
@@ -82,5 +116,6 @@ export const helpers = {
     assertInvoiceDate,
     getDateAfterNumDays,
     getInvoiceDate,
-    isStrEmpty
+    isStrEmpty,
+    isValidInvoiceId
 };

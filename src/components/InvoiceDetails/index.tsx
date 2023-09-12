@@ -1,37 +1,49 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { DeepReadonly } from "~/src/types/helpers";
 import { InvoiceWithItemId, invoiceService } from "~/src/services/invoiceService";
 import { GoBackBtn } from "~/src/components/GoBackBtn";
 import { TopView } from "~/src/components/InvoiceDetails/TopView";
 import { MidView } from "~/src/components/InvoiceDetails/MidView";
 import { helpers } from "~/src/helpers";
+import { Loading } from "~/src/components/Loading";
+import { NotFound } from "~/src/components/NotFound";
+import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
     const navigate = useNavigate();
     const { invoiceId } = useParams();
+    const [userToken] = useUserTokenContext();
 
     React.useEffect(() => {
-        if (invoiceId === undefined) {
+        if (invoiceId === undefined || !userToken) {
             return;
         }
         void (async () => {
             try {
-                setInvoice(await invoiceService.getInvoiceById(invoiceId));
+                setInvoice(await invoiceService.getInvoiceById(invoiceId, userToken.jsonWebToken));
             }
             catch(error) {
                 console.log(error);
                 setInvoice(null);
             }
         })();
-    }, [invoiceId]);
+    }, [invoiceId, navigate, userToken]);
+
+    if (!userToken) {
+        return (
+            <Navigate 
+                to = "/login"
+            />
+        );
+    }
 
     let contentNode: React.ReactNode = null;
     if (invoice === undefined) {
-        contentNode = "Loading...";
+        contentNode = <Loading />;
     } else if (invoice === null) {
-        contentNode = "No invoice";
+        contentNode = <NotFound />;
     } else {
         const title = `details of invoice with unique identifier ${invoice.id}`;
         const onDelete = async () => {

@@ -5,10 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { common } from "~/src/services/common";
 
 const instance = axios.create({
-    baseURL: `${common.baseUrl}/invoices`,
-    headers: {
-        Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJlbHRvbi5sb2JvQGdtYWlsLmNvbSIsImlhdCI6MTY5Mzk3NTE3M30.bMatpli_Q0PHLUq6scxJHOv7otxqk8zctR3Nxi0LTFY"
-    }
+    baseURL: `${common.baseUrl}/invoices/`
 });
 
 function addIdsToItems(invoice: Invoice) {
@@ -20,12 +17,20 @@ function addIdsToItems(invoice: Invoice) {
 
 export type InvoiceWithItemId = ReturnType<typeof addIdsToItems>;
 
-async function getInvoices() {
-    return (await instance.get<Invoice[]>("/")).data.map(addIdsToItems);
+function createAxiosAuthTokenHeader(authToken: string) {
+    return {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    };
 }
 
-async function getInvoiceById(id: string) {
-    return addIdsToItems((await instance.get<Invoice>(`/${id}`)).data);
+async function getInvoices(authToken: string) {
+    return (await instance.get<Invoice[]>("/", createAxiosAuthTokenHeader(authToken))).data.map(addIdsToItems);
+}
+
+async function getInvoiceById(id: string, authToken: string) {
+    return addIdsToItems((await instance.get<Invoice>(`/${id}`, createAxiosAuthTokenHeader(authToken))).data);
 }
 
 async function addInvoice(newInvoice: DeepReadonly<Invoice>) {
