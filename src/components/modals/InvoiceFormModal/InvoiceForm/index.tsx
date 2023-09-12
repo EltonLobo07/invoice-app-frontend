@@ -8,7 +8,7 @@ import { DeepReadonly, OptionalKey } from "~/src/types/helpers";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
 import { InvoiceId } from "~/src/components/InvoiceId";
 import { AddressFormFields } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/AddressFormFields";
-import { LabelledInput } from "~/src/components/modals/InvoiceFormModal/LabelledInput";
+import { LabelledInput } from "~/src/components/LabelledInput";
 import { Button } from "~/src/components/Button";
 import { ItemsFormFields } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/ItemsFormFields";
 import { PaymentTermsSelect } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/PaymentTermsSelect";
@@ -27,10 +27,6 @@ type Props = {
 
 type Address = DeepReadonly<InvoiceWithItemId["clientAddress"]>;
 type Items = DeepReadonly<InvoiceWithItemId["items"]>;
-
-function isStrEmpty(arg: string) {
-    return arg.length === 0;
-}
 
 function generateRandomInvoiceId(): InvoiceWithItemId["id"] {
     return [
@@ -95,7 +91,7 @@ export function InvoiceForm(props: Props) {
 
     const areAllAddressFieldsFilled = (address: Address) => {
         for (const key of Object.keys(address)) {
-            if (isStrEmpty(address[key as keyof Address])) {
+            if (helpers.isStrEmpty(address[key as keyof Address])) {
                 return false;
             }
         }
@@ -104,7 +100,7 @@ export function InvoiceForm(props: Props) {
 
     const areAlllItemsNameFilled = () => {
         for (const item of items) {
-            if (isStrEmpty(item.name)) {
+            if (helpers.isStrEmpty(item.name)) {
                 return false;
             }
         }
@@ -115,10 +111,10 @@ export function InvoiceForm(props: Props) {
         return (
             areAllAddressFieldsFilled(senderAddress) &&
             areAllAddressFieldsFilled(clientAddress) &&
-            !isStrEmpty(clientName) &&
-            !isStrEmpty(clientEmail) &&
-            !isStrEmpty(invoiceDate) &&
-            !isStrEmpty(projectDescription) &&
+            !helpers.isStrEmpty(clientName) &&
+            !helpers.isStrEmpty(clientEmail) &&
+            !helpers.isStrEmpty(invoiceDate) &&
+            !helpers.isStrEmpty(projectDescription) &&
             areAlllItemsNameFilled()
         );
     };

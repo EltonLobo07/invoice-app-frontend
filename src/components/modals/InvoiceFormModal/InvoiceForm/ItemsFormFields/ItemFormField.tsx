@@ -1,6 +1,6 @@
 import { InvoiceWithItemId } from "~/src/services/invoiceService";
 import { DeepReadonly } from "~/src/types/helpers";
-import { LabelledInput } from "~/src/components/modals/InvoiceFormModal/LabelledInput";
+import { LabelledInput } from "~/src/components/LabelledInput";
 import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/ItemsFormFields/common";
 import { helpers } from "~/src/helpers";
 import { Delete } from "~/src/components/icons/Delete";

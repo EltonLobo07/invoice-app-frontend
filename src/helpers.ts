@@ -67,6 +67,10 @@ function getInvoiceDate(date: Date): InvoiceDate {
     return getYearMonthDateStr(date) as InvoiceDate;
 }
 
+function isStrEmpty(arg: string) {
+    return arg.length === 0;
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
@@ -77,5 +81,6 @@ export const helpers = {
     generateRandomDigit,
     assertInvoiceDate,
     getDateAfterNumDays,
-    getInvoiceDate
+    getInvoiceDate,
+    isStrEmpty
 };

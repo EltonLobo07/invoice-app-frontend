@@ -1,5 +1,5 @@
 import { helpers } from "~/src/helpers";
-import { LabelledInput } from "~/src/components/modals/InvoiceFormModal/LabelledInput";
+import { LabelledInput } from "~/src/components/LabelledInput";
 import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/common";
 
 type Address = ReturnType<typeof common.addressInitializer>; 

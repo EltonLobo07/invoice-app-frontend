@@ -6,9 +6,11 @@ import { twStyles } from "~/src/twStyles";
 
 type Props = 
     Omit<JSX.IntrinsicElements["label"], "children">
-    & {_formSubmitBtnClicked: boolean}
+    & {_formSubmitBtnClicked?: boolean}
     & {nativeInputProps?: JSX.IntrinsicElements["input"]}
     & {nativeSpanProps?: JSX.IntrinsicElements["span"]};
+
+export type LabelledInputProps = Props;
 
 export function LabelledInput(props: Props) {
     const {
