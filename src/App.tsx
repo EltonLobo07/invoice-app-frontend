@@ -15,11 +15,16 @@ import {
 	UserTokenContext, 
 	assertUserToken 
 } from "~/src/contexts/UserTokenContext";
+import { useLocalStorageState } from "~/src/custom-hooks/useLocalStorageState";
 
 const USER_TOKEN_LS_KEY = "userToken";
 
 export function App() {
-	const [theme, setTheme] = React.useState<Theme>("light");
+	const [theme, setTheme] = useLocalStorageState({
+		initialState: () => window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+		lsKey: "app-theme",
+		isState: (possibleTheme): possibleTheme is Theme => possibleTheme === "dark" || possibleTheme === "light"
+	});
 	// Maybe I'll add the ability to switch currency
 	const [currency] = React.useState<Currency>("£");
 	const [userToken, setUserToken] = React.useState<UserToken | null>(() => {
