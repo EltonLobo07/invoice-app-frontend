@@ -42,6 +42,7 @@ export function ItemsSection(props: Props) {
                         px-24px tabAndUp:px-32px
                         py-[1.625rem] tabAndUp:py-[1.6875rem]
                         text-white
+                        overflow-x-auto
                         ${lightTheme ? "bg-carbon-blue" : "bg-fig-ds-08"}
                     `
                 )}

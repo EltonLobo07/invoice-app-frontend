@@ -21,28 +21,31 @@ export function MidView(props: Props) {
     const isClientEmailEmpty = props.invoice.clientEmail.length === 0;
     const twOpacity = "opacity-50";
     const commonClassNames = `${lightTheme ? "text-fig-ds-08" : "text-white"} ${twStyles.fontFigHeadingS}`;
+    const commonClassNameToAvoidWordOverflow = "break-all hyphens-auto";
 
     return (
         <div
             className = {helpers.formatClassNames(
                 `
-                max-h-full overflow-y-auto
-                p-24px tabAndUp:p-32px laptopAndUp:p-48px
-                ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
-                ${commonTwStyles.borderRadius}
-                ${commonTwStyles.boxShadow}
+                    max-h-full overflow-y-auto
+                    p-24px tabAndUp:p-32px laptopAndUp:p-48px
+                    ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
+                    ${commonTwStyles.borderRadius}
+                    ${commonTwStyles.boxShadow}
                 `
             )}
         >
             <div
                 className = {helpers.formatClassNames(
                     `
-                    flex
-                    flex-col tabAndUp:flex-row
-                    tabAndUp:justify-between
-                    gap-y-8
-                    mb-8 tabAndUp:mb-5
-                    relative
+                        flex
+                        flex-col tabAndUp:flex-row
+                        tabAndUp:items-baseline
+                        tabAndUp:justify-between
+                        gap-x-2
+                        gap-y-8
+                        mb-8 tabAndUp:mb-5
+                        relative
                     `
                 )}
             >
@@ -64,9 +67,10 @@ export function MidView(props: Props) {
                         <span
                             className = {helpers.formatClassNames(
                                 `
-                                ${twStyles.fontFigBodyVar}
-                                ${lightTheme ? "text-fig-ds-07" : "text-fig-ds-05"}
-                                ${helpers.passIfTrueElseEmpty(isDescriptionEmpty, twOpacity)}
+                                    ${commonClassNameToAvoidWordOverflow}
+                                    ${twStyles.fontFigBodyVar}
+                                    ${lightTheme ? "text-fig-ds-07" : "text-fig-ds-05"}
+                                    ${helpers.passIfTrueElseEmpty(isDescriptionEmpty, twOpacity)}
                                 `
                             )}
                         >
@@ -81,7 +85,12 @@ export function MidView(props: Props) {
                     <Address 
                         value = {props.invoice.senderAddress}
                         twOpacity = {twOpacity}
-                        className = "tabAndUp:items-end"
+                        className = {helpers.formatClassNames(
+                            `
+                                tabAndUp:items-end tabAndUp:text-right
+                                ${commonClassNameToAvoidWordOverflow}
+                            `
+                        )}
                     />
                 </SectionH3Labelled>
             </div>
@@ -119,8 +128,9 @@ export function MidView(props: Props) {
                         <span
                             className = {helpers.formatClassNames(
                                 `
-                                ${commonClassNames}
-                                ${helpers.passIfTrueElseEmpty(isClientNameEmpty, twOpacity)}
+                                    ${commonClassNameToAvoidWordOverflow}
+                                    ${commonClassNames}
+                                    ${helpers.passIfTrueElseEmpty(isClientNameEmpty, twOpacity)}
                                 `
                             )}
                         >
@@ -129,6 +139,7 @@ export function MidView(props: Props) {
                         <Address 
                             value = {props.invoice.clientAddress}
                             twOpacity = {twOpacity}
+                            className = {commonClassNameToAvoidWordOverflow}
                         />
                     </div>
                 </SectionH3Labelled>
@@ -138,8 +149,9 @@ export function MidView(props: Props) {
                     <span
                         className = {helpers.formatClassNames(
                             `
-                            ${commonClassNames}
-                            ${helpers.passIfTrueElseEmpty(isClientEmailEmpty, twOpacity)}
+                                ${commonClassNames}
+                                ${commonClassNameToAvoidWordOverflow}
+                                ${helpers.passIfTrueElseEmpty(isClientEmailEmpty, twOpacity)}
                             `
                         )}
                     >

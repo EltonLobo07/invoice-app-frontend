@@ -12,14 +12,15 @@ type Props = {
 export function TableRow(props: Props) {
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
-    const rowBottomPadding = "pb-8";
+    const horizontalAndBottomPadding = "px-2 pb-8";
 
     return (
         <tr>
             <td
                 className = {helpers.formatClassNames(
                     `
-                        ${rowBottomPadding}
+                        break-all hyphens-auto
+                        ${horizontalAndBottomPadding}
                         ${twStyles.fontFigHeadingSVar}
                         ${lightTheme ? "text-fig-ds-08" : "text-white"}
                         ${helpers.passIfTrueElseEmpty(props.item.name.length === 0, "opacity-30")}
@@ -32,7 +33,7 @@ export function TableRow(props: Props) {
                 className = {helpers.formatClassNames(
                     `
                         text-center
-                        ${rowBottomPadding}
+                        ${horizontalAndBottomPadding}
                         ${twStyles.fontFigHeadingSVar}
                         ${lightTheme ? "text-fig-ds-07" : "text-fig-ds-05"}
                     `
@@ -44,7 +45,7 @@ export function TableRow(props: Props) {
                 className = {helpers.formatClassNames(
                     `
                         text-end
-                        ${rowBottomPadding}
+                        ${horizontalAndBottomPadding}
                         ${twStyles.fontFigHeadingSVar}
                         ${lightTheme ? "text-fig-ds-07" : "text-fig-ds-05"}
                     `
@@ -58,7 +59,7 @@ export function TableRow(props: Props) {
                 className = {helpers.formatClassNames(
                     `
                         text-end
-                        ${rowBottomPadding}
+                        ${horizontalAndBottomPadding}
                         ${twStyles.fontFigHeadingSVar}
                         ${lightTheme ? "text-fig-ds-08" : "text-white"}
                     `

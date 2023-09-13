@@ -19,7 +19,7 @@ export function ItemSection(props: Props) {
     return (
         <section
             aria-label = {title}
-            className = "flex justify-between flex-wrap gap-y-2"
+            className = "flex justify-between flex-wrap gap-y-2 overflow-x-auto"
         >
             <div
                 className = "flex flex-col gap-y-2"
@@ -27,6 +27,7 @@ export function ItemSection(props: Props) {
                 <h4
                     className = {helpers.formatClassNames(
                         `
+                            break-all hyphens-auto
                             ${twStyles.fontFigHeadingS}
                             ${lightTheme ? "text-fig-ds-08" : "text-white"}
                         `

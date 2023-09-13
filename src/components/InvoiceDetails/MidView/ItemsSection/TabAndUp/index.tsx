@@ -13,11 +13,11 @@ type Props = {
 export function TabAndUp(props: Props) {
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
-    const colHeadingBottomPadding = "pb-8";
+    const colHeadingHorizontalAndBottomPadding = "px-2 pb-8";
 
     return (
         <table
-            className = "hidden tabAndUp:table w-full border-separate p-32px pb-8px"
+            className = "hidden tabAndUp:table w-full border-separate px-24px py-32px pb-8px"
         >
             <caption
                 className = "relative"
@@ -41,7 +41,7 @@ export function TabAndUp(props: Props) {
                         className = {helpers.formatClassNames(
                             `
                                 capitalize text-start
-                                ${colHeadingBottomPadding}
+                                ${colHeadingHorizontalAndBottomPadding}
                             `
                         )}
                     >
@@ -52,7 +52,7 @@ export function TabAndUp(props: Props) {
                         className = {helpers.formatClassNames(
                             `
                                 relative
-                                ${colHeadingBottomPadding}
+                                ${colHeadingHorizontalAndBottomPadding}
                             `
                         )}
                     >
@@ -73,7 +73,7 @@ export function TabAndUp(props: Props) {
                         className = {helpers.formatClassNames(
                             `
                                 capitalize text-end
-                                ${colHeadingBottomPadding}
+                                ${colHeadingHorizontalAndBottomPadding}
                             `
                         )}
                     >
@@ -84,7 +84,7 @@ export function TabAndUp(props: Props) {
                         className = {helpers.formatClassNames(
                             `
                                 capitalize text-end
-                                ${colHeadingBottomPadding}
+                                ${colHeadingHorizontalAndBottomPadding}
                             `
                         )}
                     >

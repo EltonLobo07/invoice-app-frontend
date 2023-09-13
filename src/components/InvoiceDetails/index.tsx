@@ -111,7 +111,7 @@ export function InvoiceDetails() {
 
     return (
         <div
-            className = "h-full"
+            className = "h-full tabAndUp:pb-[4px]"
         >
             {contentNode}
         </div>
