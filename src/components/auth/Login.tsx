@@ -9,6 +9,7 @@ import {
     useNavigate 
 } from "react-router-dom";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
+import { CustomLink } from "~/src/components/auth/CustomLink";
 
 export function Login() {
     const [email, setEmail] = React.useState("");
@@ -22,7 +23,8 @@ export function Login() {
         !helpers.isStrEmpty(password)
     );
 
-    const handleLogin = async () => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const allRequiredFieldsFilled = areAllRequiredFieldsFilled(); 
         if (allRequiredFieldsFilled) {
             try {
@@ -49,9 +51,11 @@ export function Login() {
     }
 
     const link = (
-        <a>
+        <CustomLink
+            to = "/signup"
+        >
             sign up for a new account
-        </a>
+        </CustomLink>
     );
 
     return (
@@ -59,13 +63,16 @@ export function Login() {
             title = "Sign in to your account"
             link = {link}
         >
-            <Layout.Form>
+            <Layout.Form
+                onSubmit = {handleLogin}
+            >
                 <CustomLabelledInput 
                     nativeSpanProps = {{
                         children: "email address"
                     }}
                     nativeInputProps = {{
                         type: "email",
+                        placeholder: "email@example.com",
                         value: email,
                         onChange: e => setEmail(e.target.value),
                         required: true
@@ -85,8 +92,7 @@ export function Login() {
                     _formSubmitBtnClicked = {showCantBeEmptyMsg}
                 />
                 <CustomButton
-                    type = "button"
-                    onClick = {handleLogin}
+                    type = "submit"
                 >
                     Sign in
                 </CustomButton>

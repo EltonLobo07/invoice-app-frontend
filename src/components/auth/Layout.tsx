@@ -13,24 +13,29 @@ export function Layout(props: Props) {
     return (
         <section
             aria-label = {props.title}
-            className = "h-full flex py-4"
+            className = "h-full overflow-y-auto flex py-4"
         >
             <div
-                className = "m-auto flex flex-col gap-y-8"
+                className = "m-auto flex flex-col gap-y-8 max-w-full max-h-full overflow-y-auto"
             >
                 <div
                     className = "flex flex-col items-center gap-y-2"
                 >
                     <h2
-                        className = {twStyles.fontFigHeadingL}
+                        className = {helpers.formatClassNames(
+                            `
+                                text-center
+                                ${twStyles.fontFigHeadingL}
+                            `
+                        )}
                     >
                         {props.title}
                     </h2>
                     <p
-                        className = "flex gap-x-1"
+                        className = "flex flex-col tabAndUp:flex-row gap-x-1 gap-y-1 text-center"
                     >
                         <span>
-                            Or
+                            or
                         </span>
                         {props.link}
                     </p>
@@ -56,6 +61,7 @@ const Form = (props: JSX.IntrinsicElements["form"]) => {
             className = {twMerge(
                 helpers.formatClassNames(
                     `
+                        flex-grow overflow-y-auto
                         w-[28rem] max-w-full 
                         m-auto
                         shadow-[0_10px_10px_-10px_#48549F1A]

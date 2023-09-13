@@ -5,6 +5,8 @@ import { CustomButton } from "~/src/components/auth/CustomButton";
 import { helpers } from "~/src/helpers";
 import { authService } from "~/src/services/authService";
 import { useNavigate } from "react-router-dom";
+import { CustomLink } from "~/src/components/auth/CustomLink";
+import { twStyles } from "~/src/twStyles";
 
 export function Signup() {
     const [showCantBeEmptyMsg, setShowCantBeEmptyMsg] = React.useState(false);
@@ -12,7 +14,19 @@ export function Signup() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
+    const [didUserAttemptToSignUp, setDidUserAttemptToSignUp] = React.useState(false);
+    const [showPasswordDontMatchMsg, setShowPasswordDontMatch] = React.useState(false);
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        if (password !== confirmPassword) {
+            if (didUserAttemptToSignUp && !showPasswordDontMatchMsg) {
+                setShowPasswordDontMatch(true);
+            }
+        } else if (showPasswordDontMatchMsg) {
+            setShowPasswordDontMatch(false);
+        }
+    }, [didUserAttemptToSignUp, showPasswordDontMatchMsg, password, confirmPassword]);
 
     const areAllRequiredFieldsFilled = () => {
         return (
@@ -23,19 +37,19 @@ export function Signup() {
         );
     };
 
-    const handleSignUp = async () => {
+    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const allRequiredFieldsFilled = areAllRequiredFieldsFilled();
         if (allRequiredFieldsFilled) {
             if (password !== confirmPassword) {
-                console.log("password and confirmation password don't match");
+                setShowPasswordDontMatch(true);
             } else {
                 try {
-                    console.log(await authService.signUp({
+                    await authService.signUp({
                         name: fullName,
                         email,
                         password
-                    }));
-                    console.log("Sign up successful");
+                    });
                     navigate("/login");
                 }
                 catch(error) {
@@ -44,14 +58,15 @@ export function Signup() {
             }
         } 
         setShowCantBeEmptyMsg(!allRequiredFieldsFilled);
+        setDidUserAttemptToSignUp(true);
     }; 
 
     const link = (
-        <a
-            className = "underline"
+        <CustomLink
+            to = "/login"
         >
             sign in to your existing account
-        </a>
+        </CustomLink>
     );
 
     return (
@@ -59,7 +74,10 @@ export function Signup() {
             title = "Sign up"
             link = {link}
         >
-            <Layout.Form>
+            <Layout.Form
+                className = "pb-6"
+                onSubmit = {handleSignUp}
+            >
                 <CustomLabelledInput 
                     nativeSpanProps = {{
                         children: "full name",
@@ -67,6 +85,7 @@ export function Signup() {
                     }}
                     nativeInputProps = {{
                         type: "text",
+                        placeholder: "Elton Lobo",
                         value: fullName,
                         onChange: e => setFullName(e.target.value),
                         required: true
@@ -79,6 +98,7 @@ export function Signup() {
                     }}
                     nativeInputProps = {{
                         type: "email",
+                        placeholder: "email@example.com",
                         value: email,
                         onChange: e => setEmail(e.target.value),
                         required: true
@@ -109,12 +129,36 @@ export function Signup() {
                     }}
                     _formSubmitBtnClicked = {showCantBeEmptyMsg}
                 />
-                <CustomButton
-                    type = "button"
-                    onClick = {handleSignUp}
+                <div
+                    className = "flex flex-col gap-y-2"
                 >
-                    Sign up
-                </CustomButton>
+                    <CustomButton
+                        type = "submit"
+                    >
+                        Sign up
+                    </CustomButton>
+                    <div
+                        aria-atomic
+                        aria-live = "assertive"
+                        aria-relevant = "additions"
+                    >
+                        <p
+                            className = {helpers.formatClassNames(
+                                `
+                                    text-fig-ds-09
+                                    normal-case
+                                    ${twStyles.fontFigBetweenBodyAndHeading}
+                                `
+                            )}
+                        >
+                            {
+                                showPasswordDontMatchMsg
+                                ? "password and confirmation password don't match"
+                                : ""
+                            }
+                        </p>
+                    </div>
+                </div>
             </Layout.Form>
         </Layout>        
     );

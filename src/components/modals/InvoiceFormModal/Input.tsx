@@ -20,7 +20,7 @@ export function Input(props: Props) {
                 lightTheme ? "bg-white" : "bg-fig-ds-04",
                 lightTheme ? "border-fig-ds-05" : "border-fig-ds-04",
                 twStyles.fontFigHeadingSVar,
-                "px-24px py-16px",
+                "px-[24px] py-[16px]",
                 "rounded-[8px]",
                 "outline-fig-ds-02",
                 "min-h-[3.3rem]",

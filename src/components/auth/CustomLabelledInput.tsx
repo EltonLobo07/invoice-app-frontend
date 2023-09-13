@@ -36,7 +36,7 @@ export function CustomLabelledInput(props: Props) {
             nativeInputProps = {{
                 ...props.nativeInputProps,
                 className: twMerge(
-                    "py-2 px-3 rounded-md min-h-fit",
+                    "py-2 px-3 rounded-md min-h-fit text-[1rem] outline-offset-2",
                     props.nativeInputProps?.className
                 ) 
             }}
