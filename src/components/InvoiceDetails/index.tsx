@@ -61,8 +61,11 @@ export function InvoiceDetails() {
     } else {
         const title = `details of invoice with unique identifier ${invoice.id}`;
         const onDelete = async () => {
+            if (!userToken) {
+                return;
+            }
             try {
-                await invoiceService.deleteInvoice(invoice.id);
+                await invoiceService.deleteInvoice(invoice.id, userToken.jsonWebToken);
                 navigate(-1);
             }
             catch(error) {

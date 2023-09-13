@@ -21,15 +21,15 @@ export function TabAndUp(props: Props) {
             >
                 <LabelledId 
                     value = {props.invoice.id}
-                    className = "w-[8ch]"
+                    className = "w-[8ch] relative z-20"
                 />
                 <LabelledPaymentDue 
                     value = {props.invoice.paymentDue}
-                    className = "w-[14ch]"
+                    className = "w-[14ch] relative z-20"
                 />
             </div>
             <div
-                className = "relative flex-grow overflow-x-auto gap-x-2 flex justify-between items-center"
+                className = "relative z-20 flex-grow overflow-x-auto gap-x-2 flex justify-between items-center"
             >
                 <LabelledClientName 
                     value = {props.invoice.clientName}

@@ -10,6 +10,7 @@ import { helpers } from "~/src/helpers";
 import { DeleteModal } from "./DeleteModal";
 import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
 import { InvoiceWithItemId, invoiceService } from "~/src/services/invoiceService";
+import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 
 type Props = {
     invoice: DeepReadonly<InvoiceWithItemId>,
@@ -24,13 +25,20 @@ type ModalType = "delete" | "edit" | "none";
 export function TopView(props: Props) {
     const [openModalType, setOpenModalType] = React.useState<ModalType>("none");
     const [theme] = useThemeContext();
+    const [userToken] = useUserTokenContext();
 
     const lightTheme = theme === "light";
     const greedyFlexItem = <div className = "flex-grow"></div>;
 
     const handleMarkAsPaid = async () => {
+        if (!userToken) {
+            return;
+        }
         try {
-            await invoiceService.updateInvoice({...props.invoice, status: "paid"});
+            await invoiceService.updateInvoice({
+                ...props.invoice, 
+                status: "paid"
+            }, userToken.jsonWebToken);
             props.onMarkAsPaidSuccess();
         }   
         catch(error) {

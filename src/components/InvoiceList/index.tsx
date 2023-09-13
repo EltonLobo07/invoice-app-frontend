@@ -31,7 +31,21 @@ export function InvoiceList() {
 
     const handleInvoiceSaveSuccess = (invoice: DeepReadonly<Invoice>) => {
         setOpenInvoiceFormModal(false);
-        setInvoices([...invoices, invoice]);
+        const newInvoices: DeepReadonly<Invoice>[] = [];
+        let invoiceAdded = false;
+        const invoicePaymentDueTimestamp = new Date(invoice.paymentDue).getTime();
+        for (let i = 0; i < invoices.length; i += 1) {
+            const curInvoice = invoices[i];
+            if (invoicePaymentDueTimestamp < new Date(curInvoice.paymentDue).getTime()) {
+                newInvoices.push(invoice);
+                invoiceAdded = true;
+            }
+            newInvoices.push(curInvoice);
+        }
+        if (!invoiceAdded) {
+            newInvoices.push(invoice);
+        }
+        setInvoices(newInvoices);
     };
 
     const filteredInvoices = invoices.filter(invoice => filterBy.includes(invoice.status));

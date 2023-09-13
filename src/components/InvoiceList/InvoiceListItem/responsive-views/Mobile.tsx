@@ -23,7 +23,7 @@ export function Mobile(props: Props) {
                 />
                 <LabelledClientName 
                     value = {props.invoice.clientName}
-                    className = "flex-grow overflow-x-auto text-right"
+                    className = "flex-grow overflow-x-auto text-right relative z-20"
                 />
             </div>
             <div
@@ -37,7 +37,7 @@ export function Mobile(props: Props) {
                     />
                     <LabelledTotalAmount 
                         items = {props.invoice.items}
-                        className = "w-full overflow-x-auto"
+                        className = "self-start max-w-full overflow-x-auto relative z-20"
                     />
                 </div>
                 <LabelledStatus 

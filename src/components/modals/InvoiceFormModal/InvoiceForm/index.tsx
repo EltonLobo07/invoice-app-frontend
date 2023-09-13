@@ -17,6 +17,7 @@ import { useObjectState } from "~/src/custom-hooks/useObjectState";
 import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/common";
 import { Invoice } from "~/src/types";
 import { v4 as uuidv4 } from "uuid";
+import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 
 type Props = {
     onCancel: () => void,
@@ -61,6 +62,7 @@ export function InvoiceForm(props: Props) {
     const [items, setItems] = React.useState<Items>(initialItems);
     const [isIntersecting, setIsIntersecting] = React.useState(false);
     const [theme] = useThemeContext();
+    const [userToken] = useUserTokenContext();
     const intersectionObserverTargetRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useEffect(() => {
@@ -144,7 +146,7 @@ export function InvoiceForm(props: Props) {
 
     const handleSaveChange = async () => {
         setFormSubmitBtnClicked(true);
-        if (areAllFieldsFilled()) {
+        if (areAllFieldsFilled() && userToken) {
             try {
                 const invoiceObj = createInvoiceFromFields();
                 const { status } = invoiceObj;
@@ -154,7 +156,7 @@ export function InvoiceForm(props: Props) {
                 const updatedInvoice = await invoiceService.updateInvoice({
                     ...invoiceObj, 
                     status: status === "draft" ? "pending" : status
-                });
+                }, userToken.jsonWebToken);
                 props.onInvoiceEditSuccess?.(updatedInvoice);
             }
             catch(error) {
@@ -165,10 +167,13 @@ export function InvoiceForm(props: Props) {
 
     const handleSaveAndSend = async () => {
         setFormSubmitBtnClicked(true);
-        if (areAllFieldsFilled()) {
+        if (areAllFieldsFilled() && userToken) {
             try {
                 const invoiceObj = createInvoiceFromFields();
-                const createdInvoice = await invoiceService.addInvoice({...invoiceObj, status: "pending"});
+                const createdInvoice = await invoiceService.addInvoice({
+                    ...invoiceObj, 
+                    status: "pending"
+                }, userToken.jsonWebToken);
                 props.onInvoiceSaveSuccess?.(createdInvoice);
             }
             catch(error) {
@@ -178,9 +183,15 @@ export function InvoiceForm(props: Props) {
     };
 
     const handleSaveAsDraft = async () => {
+        if (!userToken) {
+            return;
+        }
         try {
             const invoiceObj = createInvoiceFromFields();
-            const draftInvoice = await invoiceService.addInvoice({...invoiceObj, status: "draft"});
+            const draftInvoice = await invoiceService.addInvoice({
+                ...invoiceObj, 
+                status: "draft"
+            }, userToken.jsonWebToken);
             props.onInvoiceSaveSuccess?.(draftInvoice);
         }
         catch(error) {

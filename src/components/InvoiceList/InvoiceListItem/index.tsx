@@ -28,7 +28,7 @@ export function InvoiceListItem(props: Props) {
         >
             <section
                 aria-label = {sectionTitle}
-                className = "relative"
+                className = "relative isolate"
             >
                 <VisuallyHidden>
                     <h3>
@@ -37,7 +37,7 @@ export function InvoiceListItem(props: Props) {
                 </VisuallyHidden>
                 <button
                     onClick = {() => navigate(`/${props.invoice.id}`)}
-                    className = "absolute top-0 left-0 h-full w-full outline-fig-ds-01"
+                    className = "absolute top-0 left-0 z-10 h-full w-full outline-fig-ds-01"
                 >
                     <VisuallyHidden
                         useSpanTag

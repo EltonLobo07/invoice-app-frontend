@@ -33,16 +33,16 @@ async function getInvoiceById(id: string, authToken: string) {
     return addIdsToItems((await instance.get<Invoice>(`/${id}`, createAxiosAuthTokenHeader(authToken))).data);
 }
 
-async function addInvoice(newInvoice: DeepReadonly<Invoice>) {
-    return addIdsToItems((await instance.post<Invoice>("/", newInvoice)).data);
+async function addInvoice(newInvoice: DeepReadonly<Invoice>, authToken: string) {
+    return addIdsToItems((await instance.post<Invoice>("/", newInvoice, createAxiosAuthTokenHeader(authToken))).data);
 }
 
-async function updateInvoice(invoice: DeepReadonly<Invoice>) {
-    return addIdsToItems((await instance.put<Invoice>(`/${invoice.id}`, invoice)).data);
+async function updateInvoice(invoice: DeepReadonly<Invoice>, authToken: string) {
+    return addIdsToItems((await instance.put<Invoice>(`/${invoice.id}`, invoice, createAxiosAuthTokenHeader(authToken))).data);
 }
 
-async function deleteInvoice(invoiceId: Invoice["id"]) {
-    return instance.delete(`/${invoiceId}`);
+async function deleteInvoice(invoiceId: Invoice["id"], authToken: string) {
+    return instance.delete(`/${invoiceId}`, createAxiosAuthTokenHeader(authToken));
 }
 
 export const invoiceService = {
