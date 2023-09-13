@@ -7,7 +7,8 @@ type Address = ReturnType<typeof common.addressInitializer>;
 type Props = {
     formSubmitBtnCliked: boolean,
     address: Address,
-    addressSetter: (newAddress: Partial<Address>) => void
+    addressSetter: (newAddress: Partial<Address>) => void,
+    requiredMsg?: string
 };
 
 export function AddressFormFields(props: Props) {
@@ -34,6 +35,7 @@ export function AddressFormFields(props: Props) {
                 }}
                 className = "w-full"
                 _formSubmitBtnClicked = {props.formSubmitBtnCliked}
+                requiredMsg = {props.requiredMsg}
             />
             <div
                 className = {helpers.formatClassNames(
@@ -55,6 +57,7 @@ export function AddressFormFields(props: Props) {
                     }}
                     className = {labelledInputClassName}
                     _formSubmitBtnClicked = {props.formSubmitBtnCliked}
+                    requiredMsg = {props.requiredMsg}
                 />
                 <LabelledInput 
                     nativeSpanProps = {{
@@ -68,6 +71,7 @@ export function AddressFormFields(props: Props) {
                     }}
                     className = {labelledInputClassName}
                     _formSubmitBtnClicked = {props.formSubmitBtnCliked}
+                    requiredMsg = {props.requiredMsg}
                 />
                 <LabelledInput 
                     nativeSpanProps = {{
@@ -81,6 +85,7 @@ export function AddressFormFields(props: Props) {
                     }}
                     className = {labelledInputClassName}
                     _formSubmitBtnClicked = {props.formSubmitBtnCliked}
+                    requiredMsg = {props.requiredMsg}
                 />
             </div>
         </div>

@@ -6,7 +6,7 @@ import { twStyles } from "~/src/twStyles";
 
 type Props = 
     Omit<JSX.IntrinsicElements["label"], "children">
-    & {_formSubmitBtnClicked?: boolean}
+    & {_formSubmitBtnClicked?: boolean, requiredMsg?: string}
     & {nativeInputProps?: JSX.IntrinsicElements["input"]}
     & {nativeSpanProps?: JSX.IntrinsicElements["span"]};
 
@@ -16,6 +16,7 @@ export function LabelledInput(props: Props) {
     const {
         nativeInputProps,
         nativeSpanProps,
+        requiredMsg = "can't be empty",
         _formSubmitBtnClicked,
         ...labelProps
     } = props;
@@ -45,12 +46,13 @@ export function LabelledInput(props: Props) {
                         `
                             normal-case
                             pr-16px
+                            text-right
                             ${showRequiredTxtColor}
                             ${twStyles.fontFigBetweenBodyAndHeading}
                         `
                     )}
                 >
-                    can't be empty
+                    {requiredMsg}
                 </span>
             </span>
         );

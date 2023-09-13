@@ -30,7 +30,7 @@ export function PaymentTermsSelect(props: Props) {
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
     const commonPadding = "px-24px py-16px";
-    const commonBorderRadius = "rounded-[8px]";
+    const commonBorderRadius = "rounded-[0.25rem]";
 
     return (
         <Listbox
@@ -50,7 +50,7 @@ export function PaymentTermsSelect(props: Props) {
             {({ open }) => {
                 const Chevron = open ? ChevronUp : ChevronDown;
                 /*
-                    min-h-[3.3rem]
+                    min-h-[3.25rem]
                         To match the date picker's default height
                 */
                 return (
@@ -65,7 +65,7 @@ export function PaymentTermsSelect(props: Props) {
                                     ${commonBorderRadius}
                                     border
                                     w-full
-                                    min-h-[3.3rem]
+                                    min-h-[3.25rem]
                                     outline-fig-ds-02
                                 `
                             )}
@@ -126,8 +126,8 @@ export function PaymentTermsSelect(props: Props) {
                                                             active
                                                             ? "text-fig-ds-02"
                                                             : lightTheme
-                                                              ? "text-fig-ds-08"
-                                                              : "text-fig-ds-05"
+                                                            ? "text-fig-ds-08"
+                                                            : "text-fig-ds-05"
                                                         }
                                                     `
                                                 )}
@@ -138,7 +138,7 @@ export function PaymentTermsSelect(props: Props) {
                                     </Listbox.Option>
                                 ))
                             }
-                        </Listbox.Options>
+                        </Listbox.Options> 
                     </>
                 );
             }}

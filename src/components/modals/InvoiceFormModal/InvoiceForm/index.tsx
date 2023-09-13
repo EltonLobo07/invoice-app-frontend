@@ -64,6 +64,7 @@ export function InvoiceForm(props: Props) {
     const [theme] = useThemeContext();
     const [userToken] = useUserTokenContext();
     const intersectionObserverTargetRef = React.useRef<HTMLDivElement | null>(null);
+    const requiredFieldMsg = "can't be empty";
 
     React.useEffect(() => {
         const intersectionObserverTarget = intersectionObserverTargetRef.current;
@@ -89,7 +90,6 @@ export function InvoiceForm(props: Props) {
     const horizontalPadding = "px-24px tabAndUp:px-56px";
     const fromToLegendClassNames = `text-fig-ds-01 mb-6 ${twStyles.fontFigHeadingSVar}`;
     const commonMarginTop = "mt-10 tabAndUp:mt-12";
-    const showAllFieldsMustBeAddedMsg = !formSubmitBtnClicked; // Todo (Incomplete)
 
     const areAllAddressFieldsFilled = (address: Address) => {
         for (const key of Object.keys(address)) {
@@ -339,186 +339,196 @@ export function InvoiceForm(props: Props) {
                     `
                 )}
             >
-                <fieldset>
-                    <legend
-                        className = {fromToLegendClassNames}
-                    >
-                        bill from
-                    </legend>
-                    <AddressFormFields
-                        address = {senderAddress}
-                        addressSetter = {setSenderAddress}
-                        formSubmitBtnCliked = {formSubmitBtnClicked}
-                    />
-                </fieldset>
-                <fieldset
-                    className = {commonMarginTop}
+                <div
+                    className = "w-full h-full overflow-y-auto px-[2px] relative isolate"
                 >
-                    <legend
-                        className = {fromToLegendClassNames}
-                    >
-                        bill to
-                    </legend>
-                    <div
-                        className = "flex flex-col gap-y-6"
-                    >
-                        <LabelledInput 
-                            nativeSpanProps = {{
-                                children: "client's name"
-                            }}
-                            nativeInputProps = {{
-                                type: "text",
-                                value: clientName,
-                                onChange: e => setClientName(e.target.value)
-                            }}
-                            _formSubmitBtnClicked = {formSubmitBtnClicked}
-                        />
-                        <LabelledInput 
-                            nativeSpanProps = {{
-                                children: "client's email"
-                            }}
-                            nativeInputProps = {{
-                                type: "email",
-                                value: clientEmail,
-                                onChange: e => setClientEmail(e.target.value),
-                                placeholder: "e.g. email@example.com"
-                            }}
-                            _formSubmitBtnClicked = {formSubmitBtnClicked}
-                        />
-                        <AddressFormFields
-                            address = {clientAddress} 
-                            addressSetter = {setClientAddress}
-                            formSubmitBtnCliked = {formSubmitBtnClicked}
-                        />
-                    </div>
-                </fieldset>
-                <fieldset
-                    className = {helpers.formatClassNames(
-                        `
-                            relative
-                            flex gap-6 flex-wrap
-                            ${commonMarginTop}
-                        `
-                    )}
-                >
-                    <VisuallyHidden>
-                        <legend>
-                            basic details
+                    <fieldset>
+                        <legend
+                            className = {fromToLegendClassNames}
+                        >
+                            bill from
                         </legend>
-                    </VisuallyHidden>
-                    <LabelledInput 
-                        nativeSpanProps = {{
-                            children: "invoice date"
-                        }}
-                        nativeInputProps = {{
-                            type: "date",
-                            value: invoiceDate,
-                            onChange: e => setInvoiceDate(e.target.value),
-                            style: {
-                                colorScheme: theme
-                            }
-                        }}
-                        _formSubmitBtnClicked = {formSubmitBtnClicked}
-                        className = "basis-60 flex-grow"
-                    />
-                    <label
-                        className = "basis-60 flex-grow flex flex-col gap-y-2"
-                    >
-                        <SpanLabel>
-                            payment terms
-                        </SpanLabel>
-                        <PaymentTermsSelect 
-                            value = {paymentTerm}
-                            onChange = {setPaymentTerm}
+                        <AddressFormFields
+                            address = {senderAddress}
+                            addressSetter = {setSenderAddress}
+                            formSubmitBtnCliked = {formSubmitBtnClicked}
+                            requiredMsg = {requiredFieldMsg}
                         />
-                    </label>
-                    <LabelledInput 
-                        nativeSpanProps = {{
-                            children: "project description"
-                        }}
-                        nativeInputProps = {{
-                            type: "text",
-                            value: projectDescription,
-                            onChange: e => setProjectDescription(e.target.value)
-                        }}
-                        _formSubmitBtnClicked = {formSubmitBtnClicked}
-                        className = "w-full"
-                    />
-                </fieldset>
-                <fieldset
-                    className = "mt-16 tabAndUp:mt-7 laptopAndUp:mt-9"
-                >
-                    <legend
+                    </fieldset>
+                    <fieldset
+                        className = {commonMarginTop}
+                    >
+                        <legend
+                            className = {fromToLegendClassNames}
+                        >
+                            bill to
+                        </legend>
+                        <div
+                            className = "flex flex-col gap-y-6"
+                        >
+                            <LabelledInput 
+                                nativeSpanProps = {{
+                                    children: "client's name"
+                                }}
+                                nativeInputProps = {{
+                                    type: "text",
+                                    value: clientName,
+                                    onChange: e => setClientName(e.target.value)
+                                }}
+                                _formSubmitBtnClicked = {formSubmitBtnClicked}
+                                requiredMsg = {requiredFieldMsg}
+                            />
+                            <LabelledInput 
+                                nativeSpanProps = {{
+                                    children: "client's email"
+                                }}
+                                nativeInputProps = {{
+                                    type: "email",
+                                    value: clientEmail,
+                                    onChange: e => setClientEmail(e.target.value),
+                                    placeholder: "e.g. email@example.com"
+                                }}
+                                _formSubmitBtnClicked = {formSubmitBtnClicked}
+                                requiredMsg = {requiredFieldMsg}
+                            />
+                            <AddressFormFields
+                                address = {clientAddress} 
+                                addressSetter = {setClientAddress}
+                                formSubmitBtnCliked = {formSubmitBtnClicked}
+                                requiredMsg = {requiredFieldMsg}
+                            />
+                        </div>
+                    </fieldset>
+                    <fieldset
                         className = {helpers.formatClassNames(
                             `
-                                ${twStyles.fontFigHeadingS}
                                 relative
-                                text-stone-wash
-                                inline-block mb-5 tabAndUp:mb-4
+                                flex gap-6 flex-wrap
+                                ${commonMarginTop}
                             `
                         )}
                     >
-                        <VisuallyHidden
-                            useSpanTag
-                        >
-                            item table
+                        <VisuallyHidden>
+                            <legend>
+                                basic details
+                            </legend>
                         </VisuallyHidden>
-                        <span
-                            aria-hidden
-                            className = "inline-block"
+                        <LabelledInput 
+                            nativeSpanProps = {{
+                                children: "invoice date"
+                            }}
+                            nativeInputProps = {{
+                                type: "date",
+                                value: invoiceDate,
+                                onChange: e => setInvoiceDate(e.target.value),
+                                style: {
+                                    colorScheme: theme
+                                }
+                            }}
+                            _formSubmitBtnClicked = {formSubmitBtnClicked}
+                            requiredMsg = {requiredFieldMsg}
+                            className = "basis-60 flex-grow"
+                        />
+                        <label
+                            className = "basis-60 flex-grow flex flex-col gap-y-2 relative z-10"
                         >
-                            item list
-                        </span>
-                    </legend>
-                    <ItemsFormFields
-                        items = {items}
-                        onItemsChange = {setItems}
-                        onItemDelete = {item => setItems(items.filter(curItem => curItem.id !== item.id))}
-                        formSubmitBtnClicked = {formSubmitBtnClicked}
-                    />
-                    {
-                        items.length === 0 && (
-                            <div
-                                className = {helpers.formatClassNames(
-                                    `
-                                        mb-4
-                                        normal-case
-                                        flex justify-center
-                                        ${twStyles.fontFigBetweenBodyAndHeading}
-                                        ${lightTheme ? "text-black" : "text-white"}
-                                    `
-                                )}
-                            >
-                                No item added
-                            </div>
-                        )
-                    }
-                    <Button
-                        customType = "secondary"
-                        nativeBtnProps = {{
-                            type: "button",
-                            onClick: () => setItems(
-                                [
-                                    ...items,
-                                    {
-                                        id: uuidv4(),
-                                        name: "",
-                                        price: 0,
-                                        quantity: 1,
-                                        total: 0
-                                    }
-                                ]
-                            ),
-                            className: "w-full"
-                        }}
+                            <SpanLabel>
+                                payment terms
+                            </SpanLabel>
+                            <PaymentTermsSelect 
+                                value = {paymentTerm}
+                                onChange = {setPaymentTerm}
+                            />
+                        </label>
+                        <LabelledInput 
+                            nativeSpanProps = {{
+                                children: "project description"
+                            }}
+                            nativeInputProps = {{
+                                type: "text",
+                                value: projectDescription,
+                                onChange: e => setProjectDescription(e.target.value)
+                            }}
+                            _formSubmitBtnClicked = {formSubmitBtnClicked}
+                            requiredMsg = {requiredFieldMsg}
+                            className = "w-full"
+                        />
+                    </fieldset>
+                    <fieldset
+                        className = "mt-16 tabAndUp:mt-7 laptopAndUp:mt-9"
                     >
-                        add new items
-                    </Button>
-                </fieldset>
-                <div
-                    ref = {intersectionObserverTargetRef}
-                    className = "h-2 w-full bg-inherit"
-                ></div>
+                        <legend
+                            className = {helpers.formatClassNames(
+                                `
+                                    ${twStyles.fontFigHeadingS}
+                                    relative
+                                    text-stone-wash
+                                    inline-block mb-5 tabAndUp:mb-4
+                                `
+                            )}
+                        >
+                            <VisuallyHidden
+                                useSpanTag
+                            >
+                                item table
+                            </VisuallyHidden>
+                            <span
+                                aria-hidden
+                                className = "inline-block"
+                            >
+                                item list
+                            </span>
+                        </legend>
+                        <ItemsFormFields
+                            items = {items}
+                            onItemsChange = {setItems}
+                            onItemDelete = {item => setItems(items.filter(curItem => curItem.id !== item.id))}
+                            formSubmitBtnClicked = {formSubmitBtnClicked}
+                        />
+                        {
+                            items.length === 0 && (
+                                <div
+                                    className = {helpers.formatClassNames(
+                                        `
+                                            mb-4
+                                            normal-case
+                                            flex justify-center
+                                            ${twStyles.fontFigBodyVar}
+                                            ${lightTheme ? "text-black" : "text-white"}
+                                        `
+                                    )}
+                                >
+                                    No item added
+                                </div>
+                            )
+                        }
+                        <Button
+                            customType = "secondary"
+                            nativeBtnProps = {{
+                                type: "button",
+                                onClick: () => setItems(
+                                    [
+                                        ...items,
+                                        {
+                                            id: uuidv4(),
+                                            name: "",
+                                            price: 0,
+                                            quantity: 1,
+                                            total: 0
+                                        }
+                                    ]
+                                ),
+                                className: "w-full"
+                            }}
+                        >
+                            add new items
+                        </Button>
+                    </fieldset>
+                    <div
+                        ref = {intersectionObserverTargetRef}
+                        className = "h-2 w-full bg-inherit"
+                    ></div>
+                </div>  
             </div>
             <div
                 className = "relative h-[1px] w-full bg-transparent"
@@ -527,12 +537,14 @@ export function InvoiceForm(props: Props) {
                     className = {helpers.formatClassNames(
                         `
                             h-[200px]
-                            absolute left-0 right-0 top-0 -translate-y-[100%]
+                            absolute left-0 right-0 top-0 -translate-y-[calc(100%-20px)]
                             pointer-events-none 
                             ${
                                 isIntersecting 
-                                ? "bg-transparent" 
-                                : "bg-[linear-gradient(180deg,rgba(0,0,0,0.0001)_0%,_rgba(0,0,0,0.1)_100%)]"
+                                ? "bg-transparent"
+                                : lightTheme
+                                  ? "bg-[linear-gradient(180deg,rgba(0,0,0,0.0001)_0%,_rgba(0,0,0,0.1)_100%)]"  
+                                  : "bg-[linear-gradient(180deg,rgba(0,0,0,0.0001)_0%,_rgba(0,0,0,0.499577)_100%)]"
                             }
                         `
                     )}
@@ -540,41 +552,55 @@ export function InvoiceForm(props: Props) {
                 </div>
             </div>
             <div
-                role = "alert"
-                className = {helpers.formatClassNames(
-                    `
-                        ${helpers.passIfTrueElseEmpty(showAllFieldsMustBeAddedMsg, "hidden")}
-                        ${twStyles.fontFigBetweenBodyAndHeading}
-                        ${horizontalPadding}
-                        mt-8
-                        normal-case
-                        text-fig-ds-09
-                    `
-                )}
-            >
-                All fields must be added if you wish to save & send
-            </div>
-            <fieldset
                 className = {helpers.formatClassNames(
                     `
                         relative
-                        flex
-                        py-5 tabAndUp:py-8
+                        pt-8
                         tabAndUp:rounded-br-[20px]
                         rounded-t-[20px]
                         ${lightTheme ? "bg-white" : "bg-fig-ds-12"}
-                        ${horizontalPadding}
-                        ${actionBtnGapClassName}
+                        ${horizontalPadding} 
+                        flex-shrink-0 w-full overflow-x-auto
                     `
                 )}
             >
-                <VisuallyHidden>
-                    <legend>
-                        actions
-                    </legend>
-                </VisuallyHidden>
-                {actionBtnsJSX}
-            </fieldset>
+                <div
+                    aria-atomic
+                    aria-live = "assertive"
+                    aria-relevant = "additions"
+                    className = {helpers.formatClassNames(
+                        `
+                            bg-inherit
+                            ${twStyles.fontFigBetweenBodyAndHeading}
+                            normal-case
+                            text-fig-ds-09
+                        `
+                    )}
+                >
+                    {
+                        formSubmitBtnClicked && !areAllFieldsFilled()
+                        ? "All fields must be added if you wish to save & send"
+                        : ""
+                    }
+                </div>
+                <fieldset
+                    className = {helpers.formatClassNames(
+                        `
+                            relative
+                            flex
+                            py-5 tabAndUp:py-8
+                            ${actionBtnGapClassName}
+                        `
+                    )}
+                >
+                    <VisuallyHidden>
+                        <legend>
+                            actions
+                        </legend>
+                    </VisuallyHidden>
+                    {actionBtnsJSX}
+                </fieldset>
+            </div>
         </form>
     );
 }

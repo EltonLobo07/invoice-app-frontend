@@ -8,10 +8,6 @@ export function Input(props: Props) {
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
 
-    /*
-        min-h-[3.3rem]
-            To match the date picker's default height
-    */
     return (
         <input
             {...props}
@@ -20,10 +16,9 @@ export function Input(props: Props) {
                 lightTheme ? "bg-white" : "bg-fig-ds-04",
                 lightTheme ? "border-fig-ds-05" : "border-fig-ds-04",
                 twStyles.fontFigHeadingSVar,
-                "px-[24px] py-[16px]",
-                "rounded-[8px]",
+                "px-[24px] pt-[1.0625rem] pb-[0.9375rem]",
+                "rounded-[0.25rem]",
                 "outline-fig-ds-02",
-                "min-h-[3.3rem]",
                 "border",
                 props.className
             )}
