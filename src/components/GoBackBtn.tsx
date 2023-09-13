@@ -12,6 +12,7 @@ export function GoBackBtn(props: Props) {
     } = props;
 
     const [theme] = useThemeContext();
+    const lightTheme = theme === "light";
 
     return (
         <button
@@ -20,7 +21,8 @@ export function GoBackBtn(props: Props) {
             className = {twMerge(
                 "flex gap-x-6 items-center",
                 twStyles.fontFigHeadingSVar,
-                theme === "light" ? "text-fig-ds-08" : "text-white", 
+                lightTheme ? "text-fig-ds-08" : "text-white",
+                lightTheme ? "hover:text-fig-ds-07" : "hover:text-fig-ds-06",
                 className
             )}
         >
