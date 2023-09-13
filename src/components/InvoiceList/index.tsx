@@ -65,7 +65,7 @@ export function InvoiceList() {
         void (async () => {
             try {
                 const invoices = await invoiceService.getInvoices(userToken.jsonWebToken);
-                await helpers.getPromiseThatResolvesAfterXSeconds(2500);
+                await helpers.getPromiseThatResolvesAfterXSeconds(500);
                 setInvoices(invoices);
             }
             catch(error) {

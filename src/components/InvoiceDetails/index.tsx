@@ -24,7 +24,7 @@ export function InvoiceDetails() {
         void (async () => {
             try {
                 const invoice = await invoiceService.getInvoiceById(invoiceId, userToken.jsonWebToken);
-                await helpers.getPromiseThatResolvesAfterXSeconds(2500);
+                await helpers.getPromiseThatResolvesAfterXSeconds(500);
                 setInvoice(invoice);
             }
             catch(error) {
