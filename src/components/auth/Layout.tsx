@@ -1,3 +1,4 @@
+import React from "react";
 import { twMerge } from "tailwind-merge";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 import { helpers } from "~/src/helpers";

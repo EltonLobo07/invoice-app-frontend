@@ -7,6 +7,9 @@ import { authService } from "~/src/services/authService";
 import { useNavigate } from "react-router-dom";
 import { CustomLink } from "~/src/components/auth/CustomLink";
 import { twStyles } from "~/src/twStyles";
+import { AxiosError } from "axios";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
+import { BtnContent } from "~/src/components/StartTaskButton/BtnContent";
 
 export function Signup() {
     const [showCantBeEmptyMsg, setShowCantBeEmptyMsg] = React.useState(false);
@@ -16,6 +19,8 @@ export function Signup() {
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const [didUserAttemptToSignUp, setDidUserAttemptToSignUp] = React.useState(false);
     const [showPasswordDontMatchMsg, setShowPasswordDontMatch] = React.useState(false);
+    const [signUpRequestRunning, setSignUpRequestRunning] = React.useState(false);
+    const asyncTaskResultMsgSetter = useAsyncTaskResultContext()[1];
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -44,16 +49,36 @@ export function Signup() {
             if (password !== confirmPassword) {
                 setShowPasswordDontMatch(true);
             } else {
+                setSignUpRequestRunning(true);
                 try {
                     await authService.signUp({
                         name: fullName,
                         email,
                         password
                     });
+                    asyncTaskResultMsgSetter({
+                        type: "success",
+                        message: "Account created"
+                    })
                     navigate("/login");
                 }
                 catch(error) {
-                    console.log(error);
+                    let  message: string;
+                    if (error instanceof AxiosError) {
+                        message = helpers.getBackendErrorStrIfPossible(error);
+                    } else if (error instanceof Error) {
+                        message = error.message;
+                    } else {
+                        message = "Try refreshing the page";
+                        console.log(error);
+                    }
+                    asyncTaskResultMsgSetter({
+                        type: "error",
+                        message
+                    });
+                }
+                finally {
+                    setSignUpRequestRunning(false);
                 }
             }
         } 
@@ -111,6 +136,7 @@ export function Signup() {
                     }}
                     nativeInputProps = {{
                         type: "password",
+                        autoComplete: "off",
                         value: password,
                         onChange: e => setPassword(e.target.value),
                         required: true
@@ -123,6 +149,7 @@ export function Signup() {
                     }}
                     nativeInputProps = {{
                         type: "password",
+                        autoComplete: "off",
                         value: confirmPassword,
                         onChange: e => setConfirmPassword(e.target.value),
                         required: true
@@ -134,12 +161,22 @@ export function Signup() {
                 >
                     <CustomButton
                         type = "submit"
+                        className = "flex gap-x-1 justify-center items-center"
                     >
-                        Sign up
+                        <BtnContent
+                            asyncTaskRunning = {signUpRequestRunning}
+                            duringTaskMessage = "trying to create an account"
+                        >
+                            <span
+                                className = "mt-[0.125rem]"
+                            >
+                                Sign up
+                            </span>
+                        </BtnContent>
                     </CustomButton>
                     <div
                         aria-atomic
-                        aria-live = "assertive"
+                        aria-live = "polite"
                         aria-relevant = "additions"
                     >
                         <p

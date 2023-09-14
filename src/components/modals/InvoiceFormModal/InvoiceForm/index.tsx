@@ -18,6 +18,9 @@ import { common } from "~/src/components/modals/InvoiceFormModal/InvoiceForm/com
 import { Invoice } from "~/src/types";
 import { v4 as uuidv4 } from "uuid";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
+import { StartTaskBtn } from "~/src/components/StartTaskButton";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
+import { AxiosError } from "axios";
 
 type Props = {
     onCancel: () => void,
@@ -63,6 +66,7 @@ export function InvoiceForm(props: Props) {
     const [isIntersecting, setIsIntersecting] = React.useState(false);
     const [theme] = useThemeContext();
     const [userToken] = useUserTokenContext();
+    const asyncTaskMsgSetter = useAsyncTaskResultContext()[1];
     const intersectionObserverTargetRef = React.useRef<HTMLDivElement | null>(null);
     const requiredFieldMsg = "can't be empty";
 
@@ -100,7 +104,11 @@ export function InvoiceForm(props: Props) {
         return true;
     };
 
-    const areAlllItemsNameFilled = () => {
+    const throwNullishUserTokenError = () => {
+        throw new Error("User is not logged in");
+    };
+
+    const areAllItemsNameFilled = () => {
         for (const item of items) {
             if (helpers.isStrEmpty(item.name)) {
                 return false;
@@ -117,7 +125,7 @@ export function InvoiceForm(props: Props) {
             !helpers.isStrEmpty(clientEmail) &&
             !helpers.isStrEmpty(invoiceDate) &&
             !helpers.isStrEmpty(projectDescription) &&
-            areAlllItemsNameFilled()
+            areAllItemsNameFilled()
         );
     };
 
@@ -146,48 +154,71 @@ export function InvoiceForm(props: Props) {
 
     const handleSaveChange = async () => {
         setFormSubmitBtnClicked(true);
-        if (areAllFieldsFilled() && userToken) {
-            try {
-                const invoiceObj = createInvoiceFromFields();
-                const { status } = invoiceObj;
-                if (status === undefined) {
-                    throw new Error("status cannot be undefined when saving changes");
-                }
-                const updatedInvoice = await invoiceService.updateInvoice({
-                    ...invoiceObj, 
-                    status: status === "draft" ? "pending" : status
-                }, userToken.jsonWebToken);
-                props.onInvoiceEditSuccess?.(updatedInvoice);
+        if (!areAllFieldsFilled()) {
+            throw new Error("All fields must be filled when trying to change an existing invoice");
+        }
+        if (items.length === 0) {
+            throw new Error("Must have at least one item when trying to change an existing invoice");
+        }
+        if (!userToken) {
+            throwNullishUserTokenError();
+            return;
+        }
+        const invoiceObj = createInvoiceFromFields();
+        const { status } = invoiceObj;
+        if (status === undefined) {
+            throw new Error("status cannot be undefined when saving changes");
+        }
+        try {
+            const updatedInvoice = await invoiceService.updateInvoice({
+                ...invoiceObj, 
+                status: status === "draft" ? "pending" : status
+            }, userToken.jsonWebToken);
+            props.onInvoiceEditSuccess?.(updatedInvoice);
+        }
+        catch(error) {
+            if (error instanceof AxiosError) {
+                throw new Error(helpers.getBackendErrorStrIfPossible(error));
             }
-            catch(error) {
-                console.log(error);
-            }
+            throw error;
         }
     };
 
     const handleSaveAndSend = async () => {
         setFormSubmitBtnClicked(true);
-        if (areAllFieldsFilled() && userToken) {
-            try {
-                const invoiceObj = createInvoiceFromFields();
-                const createdInvoice = await invoiceService.addInvoice({
-                    ...invoiceObj, 
-                    status: "pending"
-                }, userToken.jsonWebToken);
-                props.onInvoiceSaveSuccess?.(createdInvoice);
+        if (!areAllFieldsFilled()) {
+            throw new Error("All fields must be filled if you wish to save & send");
+        }
+        if (items.length === 0) {
+            throw new Error("The invoice must have at least one item if you wish to save & send");
+        }
+        if (!userToken) {
+            throwNullishUserTokenError();
+            return;
+        }
+        const invoiceObj = createInvoiceFromFields();
+        try {
+            const createdInvoice = await invoiceService.addInvoice({
+                ...invoiceObj, 
+                status: "pending"
+            }, userToken.jsonWebToken);
+            props.onInvoiceSaveSuccess?.(createdInvoice);
+        }
+        catch(error) {
+            if (error instanceof AxiosError) {
+                throw new Error(helpers.getBackendErrorStrIfPossible(error));
             }
-            catch(error) {
-                console.log(error);
-            }
+            throw error;
         }
     };
 
     const handleSaveAsDraft = async () => {
         if (!userToken) {
+            throwNullishUserTokenError();
             return;
         }
+        const invoiceObj = createInvoiceFromFields();
         try {
-            const invoiceObj = createInvoiceFromFields();
             const draftInvoice = await invoiceService.addInvoice({
                 ...invoiceObj, 
                 status: "draft"
@@ -195,7 +226,10 @@ export function InvoiceForm(props: Props) {
             props.onInvoiceSaveSuccess?.(draftInvoice);
         }
         catch(error) {
-            console.log(error);
+            if (error instanceof AxiosError) {
+                throw new Error(helpers.getBackendErrorStrIfPossible(error));
+            }
+            throw error;
         }
     };
 
@@ -214,6 +248,7 @@ export function InvoiceForm(props: Props) {
     const actionBtnGapClassName = "gap-x-[8px] gap-y-2";
     let actionBtnsJSX: JSX.Element;
     if (props.invoiceToEdit) {
+        const { invoiceToEdit } = props;
         actionBtnsJSX = (
             <>
                 <Button
@@ -226,15 +261,24 @@ export function InvoiceForm(props: Props) {
                 >
                     cancel
                 </Button>
-                <Button
+                <StartTaskBtn
                     customType = "primary"
                     nativeBtnProps = {{
                         type: "button",
                         onClick: handleSaveChange
                     }}
+                    onSuccess = {() => asyncTaskMsgSetter({
+                        type: "success",
+                        message: `Edited invoice with unique identifier #${invoiceToEdit.id}`
+                    })}
+                    duringTaskMessage = "trying to save changes"
                 >
-                    save changes
-                </Button>
+                    <span
+                        className = "mt-[0.125rem]"
+                    >
+                        save changes
+                    </span>
+                </StartTaskBtn>
             </>
         );
     } else {
@@ -259,26 +303,44 @@ export function InvoiceForm(props: Props) {
                         `
                     )}
                 >
-                    <Button
+                    <StartTaskBtn 
                         customType = "plain-darker"
                         nativeBtnProps = {{
                             type: "button",
                             onClick: handleSaveAsDraft,
                             className: "normal-case ml-auto whitespace-nowrap"
                         }}
+                        onSuccess = {() => asyncTaskMsgSetter({
+                            type: "success",
+                            message: "Invoice created as draft"
+                        })}
+                        duringTaskMessage = "trying to save created invoice as draft"
                     >
-                        Save as Draft
-                    </Button>
-                    <Button
+                        <span
+                            className = "mt-[0.125rem]"
+                        >
+                            Save as Draft
+                        </span>
+                    </StartTaskBtn>
+                    <StartTaskBtn 
                         customType = "primary"
                         nativeBtnProps = {{
                             type: "button",
                             onClick: () => handleSaveAndSend(),
                             className: "whitespace-nowrap"
                         }}
+                        onSuccess = {() => asyncTaskMsgSetter({
+                            type: "success",
+                            message: "Invoice created"
+                        })}
+                        duringTaskMessage = "trying to save created invoice"
                     >
-                        save & send
-                    </Button>
+                        <span
+                            className = "mt-[0.125rem]"
+                        >
+                            save & send
+                        </span>
+                    </StartTaskBtn>
                 </div>
             </>
         );
@@ -551,56 +613,65 @@ export function InvoiceForm(props: Props) {
                 >
                 </div>
             </div>
-            <div
+            {/*
+                <div
+                    className = {helpers.formatClassNames(
+                        `
+                            relative
+                            pt-8
+                            tabAndUp:rounded-br-[20px]
+                            rounded-t-[20px]
+
+                            ${lightTheme ? "bg-white" : "bg-fig-ds-12"}
+                            ${horizontalPadding} 
+                            flex-shrink-0 w-full overflow-x-auto
+                        `
+                    )}
+                >
+                    <div
+                        aria-atomic
+                        aria-live = "assertive"
+                        aria-relevant = "additions"
+                        className = {helpers.formatClassNames(
+                            `
+                                bg-inherit
+                                ${twStyles.fontFigBetweenBodyAndHeading}
+                                normal-case
+                                text-fig-ds-09
+                            `
+                        )}
+                    >
+                        {
+                            formSubmitBtnClicked && !areAllFieldsFilled()
+                            ? "All fields must be added if you wish to save & send"
+                            : ""
+                        }
+                    </div>
+                    // Fieldset here
+                </div>
+            */}
+            <fieldset
                 className = {helpers.formatClassNames(
                     `
                         relative
-                        pt-8
+                        flex
+                        py-5 tabAndUp:py-8
                         tabAndUp:rounded-br-[20px]
                         rounded-t-[20px]
                         ${lightTheme ? "bg-white" : "bg-fig-ds-12"}
                         ${horizontalPadding} 
+                        ${actionBtnGapClassName}
                         flex-shrink-0 w-full overflow-x-auto
                     `
                 )}
             >
-                <div
-                    aria-atomic
-                    aria-live = "assertive"
-                    aria-relevant = "additions"
-                    className = {helpers.formatClassNames(
-                        `
-                            bg-inherit
-                            ${twStyles.fontFigBetweenBodyAndHeading}
-                            normal-case
-                            text-fig-ds-09
-                        `
-                    )}
-                >
-                    {
-                        formSubmitBtnClicked && !areAllFieldsFilled()
-                        ? "All fields must be added if you wish to save & send"
-                        : ""
-                    }
-                </div>
-                <fieldset
-                    className = {helpers.formatClassNames(
-                        `
-                            relative
-                            flex
-                            py-5 tabAndUp:py-8
-                            ${actionBtnGapClassName}
-                        `
-                    )}
-                >
-                    <VisuallyHidden>
-                        <legend>
-                            actions
-                        </legend>
-                    </VisuallyHidden>
-                    {actionBtnsJSX}
-                </fieldset>
-            </div>
+                <VisuallyHidden>
+                    <legend>
+                        actions
+                    </legend>
+                </VisuallyHidden>
+                {actionBtnsJSX}
+            </fieldset>
         </form>
     );
 }

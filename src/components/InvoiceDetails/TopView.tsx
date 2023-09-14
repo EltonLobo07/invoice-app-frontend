@@ -11,6 +11,9 @@ import { DeleteModal } from "./DeleteModal";
 import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
 import { InvoiceWithItemId, invoiceService } from "~/src/services/invoiceService";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
+import { AxiosError } from "axios";
+import { StartTaskBtn } from "~/src/components/StartTaskButton";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
 
 type Props = {
     invoice: DeepReadonly<InvoiceWithItemId>,
@@ -26,13 +29,14 @@ export function TopView(props: Props) {
     const [openModalType, setOpenModalType] = React.useState<ModalType>("none");
     const [theme] = useThemeContext();
     const [userToken] = useUserTokenContext();
+    const asynTaskResultMsgSetter = useAsyncTaskResultContext()[1];
 
     const lightTheme = theme === "light";
     const greedyFlexItem = <div className = "flex-grow"></div>;
 
     const handleMarkAsPaid = async () => {
         if (!userToken) {
-            return;
+            throw new Error("User must be logged in");
         }
         try {
             await invoiceService.updateInvoice({
@@ -42,7 +46,10 @@ export function TopView(props: Props) {
             props.onMarkAsPaidSuccess();
         }   
         catch(error) {
-            console.log(error);
+            if (error instanceof AxiosError) {
+                throw new Error(helpers.getBackendErrorStrIfPossible(error));
+            }
+            throw error;
         }
     };
 
@@ -104,16 +111,25 @@ export function TopView(props: Props) {
                     {
                         props.invoice.status === "pending" && (
                             <li>
-                                <Button
+                                <StartTaskBtn
                                     customType = "primary"
                                     nativeBtnProps = {{
                                         type: "button",
                                         onClick: handleMarkAsPaid,
                                         className: "normal-case whitespace-nowrap"
                                     }}
+                                    duringTaskMessage = "trying to mark the invoice as paid"
+                                    onSuccess = {() => asynTaskResultMsgSetter({
+                                        type: "success",
+                                        message: `Invoice with unique identifier - #${props.invoice.id}, marked as paid`
+                                    })}
                                 >
-                                    Mark as Paid
-                                </Button>
+                                    <span
+                                        className = "mt-[0.125rem]"
+                                    >
+                                        Mark as Paid
+                                    </span>
+                                </StartTaskBtn>
                             </li>
                         )
                     }

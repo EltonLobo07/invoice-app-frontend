@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Invoice, InvoiceDate } from "~/src/types";
 import { DeepReadonly } from "~/src/types/helpers";
 
@@ -125,6 +126,20 @@ function getPromiseThatResolvesAfterXSeconds(x: number = 5000): Promise<null> {
     return new Promise(resolve => setTimeout(() => resolve(null), x));
 }
 
+function getBackendErrorStrIfPossible(error: AxiosError) {
+    const { response } = error;
+    if (
+        response && 
+        response.data !== null &&
+        typeof response.data === "object" &&
+        "error" in response.data &&
+        typeof response.data.error === "string" 
+    ) {
+        return response.data.error;
+    }
+    return error.message;
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
@@ -138,5 +153,6 @@ export const helpers = {
     getInvoiceDate,
     isStrEmpty,
     getAtMostTwoLettersFromName,
-    getPromiseThatResolvesAfterXSeconds
+    getPromiseThatResolvesAfterXSeconds,
+    getBackendErrorStrIfPossible
 };

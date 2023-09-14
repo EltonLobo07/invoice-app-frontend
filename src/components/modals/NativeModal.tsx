@@ -1,5 +1,6 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
+import { Status } from "~/src/Layout/Status";
 
 /*
     Issues:
@@ -60,6 +61,7 @@ export function NativeModal(props: Props) {
             onClose = {() => onClose()}
         >
             {children}
+            <Status />
         </dialog>
     );
 }

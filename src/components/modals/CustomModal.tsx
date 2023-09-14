@@ -1,5 +1,6 @@
 import { Dialog as HUIDialog } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
+import { Status } from '~/src/Layout/Status';
 
 type Props = {
     open: boolean,
@@ -28,6 +29,7 @@ export function CustomModal(props: Props) {
             >
                 {props.children}
             </div>
+            <Status />
         </HUIDialog>
     );
 }

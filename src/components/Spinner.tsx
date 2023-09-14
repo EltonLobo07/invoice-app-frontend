@@ -1,7 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { helpers } from "~/src/helpers";
 import { VisuallyHidden } from "~/src/components/VisuallyHidden";
-import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 
 type Props = {
     message: string
@@ -9,18 +8,17 @@ type Props = {
 };
 
 export function Spinner(props: Props) {
-    const [theme] = useThemeContext();
-
     return (
-        <div  
+        <span  
             className = {twMerge(
                 helpers.formatClassNames(
                     `
+                        inline-block
                         w-[48px] h-[48px] 
-                        border-[8px] 
-                        ${theme === "light" ? "border-fig-ds-05" : "border-fig-ds-06"} 
+                        border-[4px] 
+                        border-current 
                         rounded-full 
-                        border-t-fig-ds-01 
+                        border-t-transparent 
                         animate-spin
                         relative
                     `
@@ -31,6 +29,6 @@ export function Spinner(props: Props) {
             <VisuallyHidden>
                 {props.message}
             </VisuallyHidden>
-        </div>
+        </span>
     );
 }

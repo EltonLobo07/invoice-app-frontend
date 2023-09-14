@@ -10,6 +10,7 @@ import { Loading } from "~/src/components/Loading";
 import { NotFound } from "~/src/components/InvoiceDetails/NotFound";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { twStyles } from "~/src/twStyles";
+import { AxiosError } from "axios";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
@@ -62,14 +63,17 @@ export function InvoiceDetails() {
         const title = `details of invoice with unique identifier ${invoice.id}`;
         const onDelete = async () => {
             if (!userToken) {
-                return;
+                throw new Error("User is not logged in");
             }
             try {
                 await invoiceService.deleteInvoice(invoice.id, userToken.jsonWebToken);
                 navigate(-1);
             }
             catch(error) {
-                console.log(error);
+                if (error instanceof AxiosError) {
+                    throw new Error(helpers.getBackendErrorStrIfPossible(error));
+                }
+                throw error;
             }
         };
         

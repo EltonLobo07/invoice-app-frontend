@@ -60,6 +60,8 @@ type Props = {
     nativeBtnProps?: JSX.IntrinsicElements["button"]
 };
 
+export type ButtonProps = Props;
+
 export function Button(props: Props) {
     const [theme] = useThemeContext();
 

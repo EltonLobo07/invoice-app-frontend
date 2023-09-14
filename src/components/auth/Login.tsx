@@ -10,13 +10,18 @@ import {
 } from "react-router-dom";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { CustomLink } from "~/src/components/auth/CustomLink";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
+import { AxiosError } from "axios";
+import { BtnContent } from "~/src/components/StartTaskButton/BtnContent";
 
 export function Login() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [showCantBeEmptyMsg, setShowCantBeEmptyMsg] = React.useState(false);
+    const [loginRequestRunning, setLoginRequestRunning] = React.useState(false);
     const navigate = useNavigate();
     const [userToken, setUserToken] = useUserTokenContext();
+    const asyncTaskResultMsgSetter = useAsyncTaskResultContext()[1];
 
     const areAllRequiredFieldsFilled = () => (
         !helpers.isStrEmpty(email) &&
@@ -27,6 +32,7 @@ export function Login() {
         e.preventDefault();
         const allRequiredFieldsFilled = areAllRequiredFieldsFilled(); 
         if (allRequiredFieldsFilled) {
+            setLoginRequestRunning(true);
             try {
                 const response = await authService.login({
                     email,
@@ -34,9 +40,28 @@ export function Login() {
                 });
                 setUserToken(response);
                 navigate("/");
+                asyncTaskResultMsgSetter({
+                    type: "success",
+                    message: `Welcome ${response.name}!`
+                });
             }
             catch(error) {
-                console.log(error);
+                let  message: string;
+                if (error instanceof AxiosError) {
+                    message = error.response?.status === 401 ? "Invalid credentials" : helpers.getBackendErrorStrIfPossible(error);
+                } else if (error instanceof Error) {
+                    message = error.message;
+                } else {
+                    message = "Try refreshing the page";
+                    console.log(error);
+                }
+                asyncTaskResultMsgSetter({
+                    type: "error",
+                    message
+                });
+            }
+            finally {
+                setLoginRequestRunning(false);
             }
         }
         setShowCantBeEmptyMsg(!allRequiredFieldsFilled);
@@ -85,6 +110,7 @@ export function Login() {
                     }} 
                     nativeInputProps = {{
                         type: "password",
+                        autoComplete: "on",
                         value: password,
                         onChange: e => setPassword(e.target.value),
                         required: true
@@ -93,8 +119,18 @@ export function Login() {
                 />
                 <CustomButton
                     type = "submit"
+                    className = "flex gap-x-1 justify-center items-center"
                 >
-                    Sign in
+                    <BtnContent
+                        asyncTaskRunning = {loginRequestRunning}
+                        duringTaskMessage = "trying to login"
+                    >
+                        <span
+                            className = "mt-[0.125rem]"
+                        >
+                            Sign in
+                        </span>
+                    </BtnContent>
                 </CustomButton>
             </Layout.Form>
         </Layout>

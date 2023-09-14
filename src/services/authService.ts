@@ -16,7 +16,7 @@ async function signUp(details: SignUpDetails) {
 }
 
 async function login(details: Omit<SignUpDetails, "name">) {
-    return (await instance.post("/login", details)).data;
+    return (await instance.post<{name: string, jsonWebToken: string}>("/login", details)).data;
 }
 
 export const authService = {

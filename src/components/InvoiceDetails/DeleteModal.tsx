@@ -5,6 +5,8 @@ import { twStyles } from "~/src/twStyles";
 import { VisuallyHidden } from "../VisuallyHidden";
 import { Button } from "../Button";
 import { Invoice } from "~/src/types";
+import { StartTaskBtn } from "~/src/components/StartTaskButton";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
 
 type Props = {
     invoiceId: Invoice["id"]
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export function DeleteModal(props: Props) {
+    const asyncTaskResultMsgSetter = useAsyncTaskResultContext()[1];
     const [theme] = useThemeContext();
     const lightTheme = theme === "light";
 
@@ -79,14 +82,24 @@ export function DeleteModal(props: Props) {
                     >
                         cancel
                     </Button>
-                    <Button
+
+                    <StartTaskBtn
                         customType = "danger"
                         nativeBtnProps = {{
                             onClick: props.onDelete
                         }}
+                        duringTaskMessage = "trying to delete the invoice"
+                        onSuccess = {() => asyncTaskResultMsgSetter({
+                            type: "success",
+                            message: `Deleted invoice with unique identifier #${props.invoiceId}`
+                        })}
                     >
-                        delete
-                    </Button>
+                        <span
+                            className = "mt-[0.125rem]"
+                        >
+                            delete
+                        </span>
+                    </StartTaskBtn>
                 </div>
             </CustomModal.Panel>
         </CustomModal>
