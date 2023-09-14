@@ -38,7 +38,7 @@ export function Header(props: Props) {
                         >
                             <button
                                 onClick = {() => setUserToken(null)}
-                                className = "px-5 tabAndUp:px-7 laptopAndUp:px-0 laptopAndUp:py-5"
+                                className = "px-5 tabAndUp:px-7 laptopAndUp:px-0 laptopAndUp:py-5 outline-fig-ds-02"
                             >
                                 <span
                                     aria-hidden
@@ -105,15 +105,15 @@ export function Header(props: Props) {
             <div
                 className = {helpers.formatClassNames(
                     `
-                    flex laptopAndUp:flex-col
-                    gap-1 mr-1 laptopAndUp:mr-0 laptopAndUp:mb-1
-                    relative
+                        flex laptopAndUp:flex-col
+                        gap-1 mr-1 laptopAndUp:mr-0 laptopAndUp:mb-1
+                        relative
                     `
                 )}
             >
                 <button
                     onClick = {() => setTheme(nextTheme)}
-                    className = "px-5 tabAndUp:px-7 laptopAndUp:px-0 laptopAndUp:py-5"
+                    className = "px-5 tabAndUp:px-7 laptopAndUp:px-0 laptopAndUp:py-5 outline-fig-ds-02"
                 >
                     <VisuallyHidden
                         useSpanTag
