@@ -16,6 +16,8 @@ import { InvoiceFormModal } from "~/src/components/modals/InvoiceFormModal";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { Navigate } from "react-router-dom";
 import { Loading } from "~/src/components/Loading";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
+import { AxiosError } from "axios";
 
 export function InvoiceList() {
     const [initialFetchComplete, setinitialFetchComplete] = React.useState(false);
@@ -28,6 +30,7 @@ export function InvoiceList() {
     ]);
     const [theme] = useThemeContext();
     const [userToken] = useUserTokenContext();
+    const asyncTaskResultWrapperSetter = useAsyncTaskResultContext()[1];
 
     const handleInvoiceSaveSuccess = (invoice: DeepReadonly<Invoice>) => {
         setOpenInvoiceFormModal(false);
@@ -67,15 +70,28 @@ export function InvoiceList() {
                 const invoices = await invoiceService.getInvoices(userToken.jsonWebToken);
                 await helpers.getPromiseThatResolvesAfterXSeconds(500);
                 setInvoices(invoices);
+                asyncTaskResultWrapperSetter({
+                    type: "success",
+                    message: "Invoices fetched"
+                });
             }
             catch(error) {
-                console.log(error);
+                let message = "Try refreshing the page";
+                if (error instanceof AxiosError) {
+                    message = helpers.getBackendErrorStrIfPossible(error);
+                } else if (error instanceof Error) {
+                    message = error.message;
+                }
+                asyncTaskResultWrapperSetter({
+                    type: "error",
+                    message
+                });
             }
             finally {
                 setinitialFetchComplete(true);
             }
         })();
-    }, [userToken]);
+    }, [userToken, asyncTaskResultWrapperSetter]);
 
     if (!userToken) {
         return (

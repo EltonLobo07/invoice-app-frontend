@@ -12,6 +12,7 @@ import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { twStyles } from "~/src/twStyles";
 import { AxiosError } from "axios";
 import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
+import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
@@ -19,6 +20,7 @@ export function InvoiceDetails() {
     const { invoiceId } = useParams();
     const [userToken] = useUserTokenContext();
     const [theme] = useThemeContext();
+    const asyncTaskResultMsgSetter = useAsyncTaskResultContext()[1];
 
     React.useEffect(() => {
         if (invoiceId === undefined || !userToken) {
@@ -29,13 +31,26 @@ export function InvoiceDetails() {
                 const invoice = await invoiceService.getInvoiceById(invoiceId, userToken.jsonWebToken);
                 await helpers.getPromiseThatResolvesAfterXSeconds(500);
                 setInvoice(invoice);
+                asyncTaskResultMsgSetter({
+                    type: "success",
+                    message: "Invoice fetched"
+                });
             }
             catch(error) {
-                console.log(error);
+                let message = "Try refreshing the page";
+                if (error instanceof AxiosError) {
+                    message = helpers.getBackendErrorStrIfPossible(error);
+                } else if (error instanceof Error) {
+                    message = error.message;
+                }
+                asyncTaskResultMsgSetter({
+                    type: "error",
+                    message
+                });
                 setInvoice(null);
             }
         })();
-    }, [invoiceId, navigate, userToken]);
+    }, [invoiceId, navigate, userToken, asyncTaskResultMsgSetter]);
 
     if (!userToken) {
         return (
