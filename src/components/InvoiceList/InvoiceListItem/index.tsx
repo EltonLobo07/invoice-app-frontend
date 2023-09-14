@@ -20,9 +20,9 @@ export function InvoiceListItem(props: Props) {
         <li
             className = {helpers.formatClassNames(
                 `
-                ${theme === "light" ? "bg-white" : "bg-fig-ds-03"}
-                shadow-[0_10px_10px_-10px_#48549F1A]
-                rounded-[8px]
+                    ${theme === "light" ? "bg-white" : "bg-fig-ds-03"}
+                    shadow-[0_10px_10px_-10px_#48549F1A]
+                    rounded-[8px]
                 `
             )}
         >

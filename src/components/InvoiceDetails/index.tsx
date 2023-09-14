@@ -11,12 +11,14 @@ import { NotFound } from "~/src/components/InvoiceDetails/NotFound";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
 import { twStyles } from "~/src/twStyles";
 import { AxiosError } from "axios";
+import { useThemeContext } from "~/src/custom-hooks/useThemeContext";
 
 export function InvoiceDetails() {
     const [invoice, setInvoice] = React.useState<DeepReadonly<InvoiceWithItemId> | null | undefined>();
     const navigate = useNavigate();
     const { invoiceId } = useParams();
     const [userToken] = useUserTokenContext();
+    const [theme] = useThemeContext();
 
     React.useEffect(() => {
         if (invoiceId === undefined || !userToken) {
@@ -84,10 +86,10 @@ export function InvoiceDetails() {
             <div
                 className = {helpers.formatClassNames(
                     `
-                    h-full overflow-y-hidden 
-                    pt-32px tabAndUp:pt-48px laptopAndUp:pt-64px 
-                    flex flex-col gap-y-8 
-                    pb-28 tabAndUp:pb-0
+                        h-full overflow-y-hidden 
+                        pt-32px tabAndUp:pt-48px laptopAndUp:pt-64px 
+                        flex flex-col gap-y-8 
+                        pb-28 tabAndUp:pb-0
                     `
                 )}
             >
@@ -96,7 +98,17 @@ export function InvoiceDetails() {
                 />
                 <section
                     aria-label = {title}
-                    className = "flex flex-col gap-y-4 tabAndUp:gap-y-6 flex-grow overflow-y-auto"
+                    className = {helpers.formatClassNames(
+                        `
+                            flex 
+                            flex-col 
+                            gap-y-4 
+                            tabAndUp:gap-y-6 
+                            flex-grow 
+                            overflow-y-auto
+                            ${helpers.getScrollbarTwClassName(theme)}
+                        `
+                    )}
                 >
                     <TopView
                         invoice = {invoice}

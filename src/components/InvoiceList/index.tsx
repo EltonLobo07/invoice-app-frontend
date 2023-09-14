@@ -103,7 +103,19 @@ export function InvoiceList() {
     } else if (noInvoices) {
         listJSX = (
             <div
-                className = "flex flex-col overflow-y-auto gap-y-[42px] tabAndUp:gap-y-[66px] my-auto w-full items-center py-2"
+                className = {helpers.formatClassNames(
+                    `
+                        flex 
+                        flex-col 
+                        overflow-y-auto 
+                        ${helpers.getScrollbarTwClassName(theme)}
+                        gap-y-[42px] tabAndUp:gap-y-[66px] 
+                        my-auto 
+                        w-full 
+                        items-center 
+                        py-2
+                    `
+                )}
             >
                 <img 
                     src = {IllustrationEmpty}
@@ -114,18 +126,16 @@ export function InvoiceList() {
                     className = "flex flex-col gap-y-6 text-center"
                 >
                     <span
-                        className = {`
-                            ${twStyles.fontFigHeadingM}
-                        `}
+                        className = {twStyles.fontFigHeadingM}
                     >
                         There is nothing here
                     </span>
                     <p
                         className = {helpers.formatClassNames(
                             `
-                            flex flex-col
-                            ${twStyles.fontFigBodyVar}
-                            ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
+                                flex flex-col
+                                ${twStyles.fontFigBodyVar}
+                                ${theme === "light" ? "text-fig-ds-06" : "text-fig-ds-05"}
                             `
                         )}
                     >
@@ -160,7 +170,17 @@ export function InvoiceList() {
     } else {
         listJSX = (
             <ol
-                className = "h-full overflow-y-auto flex flex-col gap-y-4 p-[4px]"
+                className = {helpers.formatClassNames(
+                    `
+                        h-full 
+                        overflow-y-auto
+                        ${helpers.getScrollbarTwClassName(theme)} 
+                        flex 
+                        flex-col 
+                        gap-y-4 
+                        p-[4px]
+                    `
+                )}
             >
                 {
                     filteredInvoices.map(filteredInvoice => (
@@ -182,9 +202,9 @@ export function InvoiceList() {
             <header
                 className = {helpers.formatClassNames(
                     `
-                    flex items-baseline gap-x-4 gap-y-4 tabAndUp:gap-x-10 flex-wrap 
-                    relative z-10
-                    ${noInvoices ? "mb-0" : "mb-[64px]"}    
+                        flex items-baseline gap-x-4 gap-y-4 tabAndUp:gap-x-10 flex-wrap 
+                        relative z-10
+                        ${noInvoices ? "mb-0" : "mb-[64px]"}    
                     `
                 )}
             >
@@ -264,7 +284,9 @@ export function InvoiceList() {
             <div
                 className = {helpers.formatClassNames(
                     `
-                        flex-grow overflow-y-auto 
+                        flex-grow 
+                        overflow-y-auto
+                        ${helpers.getScrollbarTwClassName(theme)} 
                         pb-[8px]
                         ${helpers.passIfTrueElseEmpty(noInvoices, "flex")}
                     `

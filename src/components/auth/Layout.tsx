@@ -11,13 +11,34 @@ type Props = {
 };
 
 export function Layout(props: Props) {
+    const [theme] = useThemeContext();
+
     return (
         <section
             aria-label = {props.title}
-            className = "h-full overflow-y-auto flex py-4"
+            className = {helpers.formatClassNames(
+                `
+                    h-full 
+                    overflow-y-auto
+                    ${helpers.getScrollbarTwClassName(theme)} 
+                    flex 
+                    py-4
+                `
+            )}
         >
             <div
-                className = "m-auto flex flex-col gap-y-8 max-w-full max-h-full overflow-y-auto"
+                className = {helpers.formatClassNames(
+                    `
+                        m-auto 
+                        flex 
+                        flex-col 
+                        gap-y-8 
+                        max-w-full 
+                        max-h-full 
+                        overflow-y-auto
+                        ${helpers.getScrollbarTwClassName(theme)}
+                    `
+                )}
             >
                 <div
                     className = "flex flex-col items-center gap-y-2"
@@ -63,6 +84,7 @@ const Form = (props: JSX.IntrinsicElements["form"]) => {
                 helpers.formatClassNames(
                     `
                         flex-grow overflow-y-auto
+                        ${helpers.getScrollbarTwClassName(theme)}
                         w-[28rem] max-w-full 
                         m-auto
                         shadow-[0_10px_10px_-10px_#48549F1A]

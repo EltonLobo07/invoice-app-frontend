@@ -27,7 +27,9 @@ export function Layout(props: Props) {
         <div
             className = {helpers.formatClassNames(
                 `
-                    h-full isolate
+                    h-full
+                    ${helpers.getScrollbarTwClassName(theme)} 
+                    isolate
                     flex flex-col
                     selection:bg-fig-ds-02 selection:text-white
                     ${theme === "light" ? "bg-fig-ds-11 text-fig-ds-08" : "bg-fig-ds-12 text-white"}
@@ -42,7 +44,17 @@ export function Layout(props: Props) {
                     applyMediaQueryPositionStyles
                 />
                 <div
-                    className = "flex-grow overflow-y-auto px-8px laptopAndUp:px-128px"
+                    className = {
+                        helpers.formatClassNames(
+                            `
+                                flex-grow 
+                                overflow-y-auto
+                                ${helpers.getScrollbarTwClassName(theme)} 
+                                px-8px 
+                                laptopAndUp:px-128px
+                            `
+                        )
+                    }
                 >
                     <main
                         className = "h-full w-[45.625rem] max-w-full mx-auto"

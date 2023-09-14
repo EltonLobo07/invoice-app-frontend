@@ -348,7 +348,18 @@ export function InvoiceForm(props: Props) {
 
     return (
         <form
-            className = "w-full h-full overflow-y-auto flex flex-col capitalize relative"
+            className = {helpers.formatClassNames(
+                `
+                    w-full 
+                    h-full 
+                    overflow-y-auto 
+                    ${helpers.getScrollbarTwClassName(theme)}
+                    flex 
+                    flex-col 
+                    capitalize 
+                    relative
+                `
+            )}
         >
             <GoBackBtn 
                 onClick = {props.onCancel}
@@ -394,15 +405,28 @@ export function InvoiceForm(props: Props) {
             <div
                 className = {helpers.formatClassNames(
                     `
-                        flex-grow overflow-y-auto
-                        flex flex-col
+                        flex-grow 
+                        overflow-y-auto
+                        ${helpers.getScrollbarTwClassName(theme)}
+                        flex 
+                        flex-col
                         pb-[4px]
                         ${horizontalPadding}
                     `
                 )}
             >
                 <div
-                    className = "w-full h-full overflow-y-auto px-[2px] relative isolate"
+                    className = {helpers.formatClassNames(
+                        `
+                            w-full 
+                            h-full 
+                            overflow-y-auto
+                            ${helpers.getScrollbarTwClassName(theme)} 
+                            pr-[16px] 
+                            relative 
+                            isolate
+                        `
+                    )}
                 >
                     <fieldset>
                         <legend
@@ -662,6 +686,7 @@ export function InvoiceForm(props: Props) {
                         ${horizontalPadding} 
                         ${actionBtnGapClassName}
                         flex-shrink-0 w-full overflow-x-auto
+                        ${helpers.getScrollbarTwClassName(theme)}
                     `
                 )}
             >

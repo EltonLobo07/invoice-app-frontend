@@ -57,12 +57,12 @@ export function TopView(props: Props) {
         <div
             className = {helpers.formatClassNames(
                 `
-                px-24px tabAndUp:px-32px 
-                py-24px tabAndUp:py-[20px] 
-                flex flex-row-reverse 
-                ${commonTwStyles.borderRadius} 
-                ${commonTwStyles.boxShadow}
-                ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
+                    px-24px tabAndUp:px-32px 
+                    py-24px tabAndUp:py-[20px] 
+                    flex flex-row-reverse 
+                    ${commonTwStyles.borderRadius} 
+                    ${commonTwStyles.boxShadow}
+                    ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
                 `
             )}
         >
@@ -77,13 +77,14 @@ export function TopView(props: Props) {
                 <ul
                     className = {helpers.formatClassNames(
                         `
-                        flex gap-[8px]
-                        items-center
-                        overflow-x-auto
-                        fixed left-0 right-0 bottom-0 z-10 tabAndUp:static 
-                        px-16px py-[22px] tabAndUp:px-0 tabAndUp:py-0
-                        ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
-                        ${commonTwStyles.boxShadow}
+                            flex gap-[8px]
+                            items-center
+                            overflow-x-auto
+                            ${helpers.getScrollbarTwClassName(theme)}
+                            fixed left-0 right-0 bottom-0 z-10 tabAndUp:static 
+                            px-16px py-[22px] tabAndUp:px-0 tabAndUp:py-0
+                            ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
+                            ${commonTwStyles.boxShadow}
                         `
                     )}
                 >
@@ -139,17 +140,17 @@ export function TopView(props: Props) {
             <div
                 className = {helpers.formatClassNames(
                     `
-                    flex gap-x-[20px] items-center justify-between
-                    flex-grow tabAndUp:flex-grow-0
+                        flex gap-x-[20px] items-center justify-between
+                        flex-grow tabAndUp:flex-grow-0
                     `
                 )}
             >
                 <span
                     className = {helpers.formatClassNames(
                         `
-                        capitalize
-                        text-sky-snail-blue
-                        ${twStyles.fontFigBody}
+                            capitalize
+                          text-sky-snail-blue
+                            ${twStyles.fontFigBody}
                         `
                     )}
                 >

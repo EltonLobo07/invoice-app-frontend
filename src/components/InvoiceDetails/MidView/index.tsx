@@ -28,6 +28,7 @@ export function MidView(props: Props) {
             className = {helpers.formatClassNames(
                 `
                     max-h-full overflow-y-auto
+                    ${helpers.getScrollbarTwClassName(theme)}
                     p-24px tabAndUp:p-32px laptopAndUp:p-48px
                     ${lightTheme ? "bg-white" : "bg-fig-ds-03"}
                     ${commonTwStyles.borderRadius}
@@ -74,7 +75,7 @@ export function MidView(props: Props) {
                                 `
                             )}
                         >
-                            {props.invoice.description || "no project description"}
+                            {props.invoice.description || "unknown project description"}
                         </span>
                     </SectionH3Labelled>
                 </div>

@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { Invoice, InvoiceDate } from "~/src/types";
 import { DeepReadonly } from "~/src/types/helpers";
+import { Theme } from "~/src/contexts/ThemeContext";
 
 function passIfTrueElseEmpty(condition: boolean, str: string): string {
     return condition ? str : "";
@@ -140,6 +141,21 @@ function getBackendErrorStrIfPossible(error: AxiosError) {
     return error.message;
 }
 
+function getScrollbarTwClassName(theme: Theme): string {
+    return formatClassNames(
+        `
+            scrollbar
+            scrollbar-w-[8px]
+            scrollbar-thumb-rounded-[4px]
+            ${
+                theme === "light"
+                ? "scrollbar-track-white scrollbar-thumb-fig-ds-05"
+                : "scrollbar-track-fig-ds-12 scrollbar-thumb-fig-ds-04"
+            }
+        `
+    );
+}
+
 export const helpers = {
     passIfTrueElseEmpty,
     shouldBeUnreachable,
@@ -154,5 +170,6 @@ export const helpers = {
     isStrEmpty,
     getAtMostTwoLettersFromName,
     getPromiseThatResolvesAfterXSeconds,
-    getBackendErrorStrIfPossible
+    getBackendErrorStrIfPossible,
+    getScrollbarTwClassName
 };
