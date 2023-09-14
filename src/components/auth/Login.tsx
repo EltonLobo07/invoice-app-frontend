@@ -9,7 +9,7 @@ import {
     useNavigate 
 } from "react-router-dom";
 import { useUserTokenContext } from "~/src/custom-hooks/useUserTokenContext";
-import { CustomLink } from "~/src/components/auth/CustomLink";
+import { CustomLink } from "~/src/components/CustomLink";
 import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
 import { AxiosError } from "axios";
 import { BtnContent } from "~/src/components/StartTaskButton/BtnContent";

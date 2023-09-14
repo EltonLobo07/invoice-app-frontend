@@ -5,7 +5,7 @@ import { CustomButton } from "~/src/components/auth/CustomButton";
 import { helpers } from "~/src/helpers";
 import { authService } from "~/src/services/authService";
 import { useNavigate } from "react-router-dom";
-import { CustomLink } from "~/src/components/auth/CustomLink";
+import { CustomLink } from "~/src/components/CustomLink";
 import { twStyles } from "~/src/twStyles";
 import { AxiosError } from "axios";
 import { useAsyncTaskResultContext } from "~/src/custom-hooks/useAsyncTaskResultContext";
