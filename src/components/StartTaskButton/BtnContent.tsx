@@ -13,7 +13,7 @@ export function BtnContent(props: Props) {
                 aria-atomic
                 aria-live = "assertive"
                 aria-relevant = "additions"
-                className = "inline-block w-4 h-4"
+                className = "inline-block w-4 h-4 flex-shrink-0"
             >
                 {
                     props.asyncTaskRunning && (

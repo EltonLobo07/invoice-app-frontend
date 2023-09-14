@@ -16,16 +16,19 @@ export function Status(props: Props) {
     const [statusObj, setStatusObj] = useAsyncTaskResultContext();
     const lightTheme = theme === "light";
     const isErrorMessage = statusObj.type === "error";
+    const commonSymbolClassName = "flex-shrink-0";
 
     let symbol: JSX.Element = (
         <Tick 
             aria-label = "success"
+            className = {commonSymbolClassName}
         />
     );
     if (isErrorMessage) {
         symbol = (
             <Error 
                 aria-label = "error"
+                className = {commonSymbolClassName}
             />
         );
     }
@@ -61,7 +64,7 @@ export function Status(props: Props) {
                         max-w-lg
                         rounded-md
                         shadow-sm
-                        fixed z-10 right-[24px] bottom-[24px]
+                        fixed z-10 ml-[24px] right-[24px] bottom-[24px]
                         border border-current
                         ${helpers.passIfTrueElseEmpty(statusObj.message.length === 0, "opacity-0")}
                         ${

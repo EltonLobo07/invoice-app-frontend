@@ -371,7 +371,7 @@ export function InvoiceForm(props: Props) {
                     `
                 )}
             />
-            <h3
+            <h2
                 aria-hidden
                 className = {helpers.formatClassNames(
                     `
@@ -401,7 +401,7 @@ export function InvoiceForm(props: Props) {
                     )
                     : "new invoice"
                 }  
-            </h3>
+            </h2>
             <div
                 className = {helpers.formatClassNames(
                     `
