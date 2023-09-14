@@ -75,7 +75,7 @@ export function MidView(props: Props) {
                                 `
                             )}
                         >
-                            {props.invoice.description || "unknown project description"}
+                            {props.invoice.description || "no project description added"}
                         </span>
                     </SectionH3Labelled>
                 </div>
@@ -135,7 +135,7 @@ export function MidView(props: Props) {
                                 `
                             )}
                         >
-                            {props.invoice.clientName || "unknown name"}
+                            {props.invoice.clientName || "no name added"}
                         </span>
                         <Address 
                             value = {props.invoice.clientAddress}
@@ -156,7 +156,7 @@ export function MidView(props: Props) {
                             `
                         )}
                     >
-                        {props.invoice.clientEmail || "unknown email"}
+                        {props.invoice.clientEmail || "no email added"}
                     </span>
                 </SectionH3Labelled>
             </div>

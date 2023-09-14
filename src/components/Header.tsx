@@ -86,16 +86,16 @@ export function Header(props: Props) {
             className = {twMerge(
                 helpers.formatClassNames(
                     `
-                    overflow-hidden 
-                    flex laptopAndUp:flex-col justify-between flex-shrink-0 
-                    laptopAndUp:rounded-r-[1.25rem] 
-                    laptopAndUp:h-full
-                    laptopAndUp:w-fit
-                    ${isLightTheme ? "bg-carbon-blue" : "bg-fig-ds-03"}
-                    ${helpers.passIfTrueElseEmpty(
-                        applyMediaQueryPositionStyles,
-                        "laptopAndUp:absolute laptopAndUp:top-0 laptopAndUp:left-0" 
-                    )}
+                        overflow-hidden 
+                        flex laptopAndUp:flex-col justify-between flex-shrink-0 
+                        laptopAndUp:rounded-r-[1.25rem] 
+                        laptopAndUp:h-full
+                        laptopAndUp:w-fit
+                        ${isLightTheme ? "bg-carbon-blue" : "bg-fig-ds-03"}
+                        ${helpers.passIfTrueElseEmpty(
+                            applyMediaQueryPositionStyles,
+                            "laptopAndUp:absolute laptopAndUp:top-0 laptopAndUp:left-0" 
+                        )}
                     `
                 ),
                 props.className

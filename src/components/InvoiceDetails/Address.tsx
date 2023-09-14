@@ -34,10 +34,10 @@ export function Address(props: Props) {
                 props.className
             )}
         >
-            {getSpanNode(props.value.street, "unknown street")}
-            {getSpanNode(props.value.city, "unknown city")}
-            {getSpanNode(props.value.postCode, "unknown postcode")}
-            {getSpanNode(props.value.country, "unknown country")}
+            {getSpanNode(props.value.street, "no street added")}
+            {getSpanNode(props.value.city, "no city added")}
+            {getSpanNode(props.value.postCode, "no postcode added")}
+            {getSpanNode(props.value.country, "no country added")}
         </p>
     );
 }

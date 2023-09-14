@@ -18,13 +18,14 @@ export function LabelledClientName(props: Props) {
             </VisuallyHidden>
             <span
                 className = {twMerge(
-                    "capitalize whitespace-nowrap",
+                    "whitespace-nowrap",
+                    props.value && "capitalize",
                     twStyles.fontFigBody,
                     theme === "light" ? "text-sky-snail-blue" : "text-white",
                     props.className
                 )}
             >
-                {props.value}
+                {props.value || "no name added"}
             </span>
         </>
     );
