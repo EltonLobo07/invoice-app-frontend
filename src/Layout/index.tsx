@@ -18,6 +18,17 @@ export function Layout(props: Props) {
         message: ""
     });
     const [theme] = useThemeContext();
+    const timeoutIdRef = React.useRef<number | null>(null);
+
+    React.useEffect(() => {
+        if (typeof timeoutIdRef.current === "number") {
+            clearTimeout(timeoutIdRef.current);
+        }
+        timeoutIdRef.current = setTimeout(() => {
+            setStatusObj({type: "success", message: ""});
+            timeoutIdRef.current = null;
+        }, 5000);
+    }, [statusObj]);
 
     /*
         laptopAndUp:px-128px is a guard for the content and header to never overlap 

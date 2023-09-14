@@ -138,6 +138,7 @@ export function Signup() {
                         type: "password",
                         autoComplete: "off",
                         value: password,
+                        placeholder: "Must contain at least 8 characters",
                         onChange: e => setPassword(e.target.value),
                         required: true
                     }}
