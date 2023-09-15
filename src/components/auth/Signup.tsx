@@ -70,7 +70,7 @@ export function Signup() {
                         message = error.message;
                     } else {
                         message = "Try refreshing the page";
-                        console.log(error);
+                        // console.log(error);
                     }
                     asyncTaskResultMsgSetter({
                         type: "error",

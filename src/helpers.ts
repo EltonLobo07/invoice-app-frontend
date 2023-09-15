@@ -132,11 +132,20 @@ function getBackendErrorStrIfPossible(error: AxiosError) {
     if (
         response && 
         response.data !== null &&
-        typeof response.data === "object" &&
-        "error" in response.data &&
-        typeof response.data.error === "string" 
+        typeof response.data === "object"
     ) {
-        return response.data.error;
+        if (
+            "error" in response.data && 
+            typeof response.data.error === "string" 
+        ) {
+            return response.data.error;
+        }
+        if (
+            "message" in response.data &&
+            typeof response.data.message === "string"
+        ) {
+            return response.data.message;
+        }
     }
     return error.message;
 }

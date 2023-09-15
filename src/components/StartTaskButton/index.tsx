@@ -29,7 +29,7 @@ export function StartTaskBtn(props: Props) {
             onSuccess();
         }
         catch(error) {
-            console.log(error);
+            // console.log(error);
             if (error instanceof Error) {
                 setAsyncTaskResult({
                     type: "error",

@@ -39,7 +39,7 @@ export function App() {
 			res = parsedUserToken;
 		}
 		catch(error) {
-			console.log(error);
+			// console.log(error);
 			res = null;
 		}
 		return res;
