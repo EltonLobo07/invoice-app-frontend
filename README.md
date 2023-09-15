@@ -1,6 +1,6 @@
 # Frontend Mentor - Invoice app solution
 
-This is a solution to the <a href="https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl" target="_blank">Invoice app challenge on Frontend Mentor</a>. Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+This is a solution to the [Invoice app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
 
 ## Table of contents
 
@@ -39,22 +39,22 @@ Users should be able to:
 
 ### Links
 
-- Frontend code: <a href = "https://github.com/EltonLobo07/invoice-app-frontend" target = "_blank">frontend Github respository</a>
-- Backend code: <a href = "https://github.com/EltonLobo07/invoice-app-backend" target = "_blank">backend Github repository</a>
-- Live Site URL: <a href = "https://tan-rich-crow.cyclic.cloud/" target = "_blank">live site</a>[]()
+- Frontend code: [frontend github repository](https://github.com/EltonLobo07/invoice-app-frontend)
+- Backend code: [backend github repository](https://github.com/EltonLobo07/invoice-app-backend)
+- Live Site URL: [live site](https://tan-rich-crow.cyclic.cloud/)
 
 ## My process
 
 ### Built with
 
 - HTML, CSS, JavaScript
-- <a href = "https://www.typescriptlang.org/" target = "_blank">TypeScript</a> - Programming language 
-- <a href = "https://react.dev/" target = "_blank">React</a> - JavaScript UI library
-- <a href = "https://tailwindcss.com/" target = "_blank">TailwindCSS</a> - CSS library
-- <a href = "https://www.postgresql.org/" target = "_blank">PostgreSQL</a> - Relational database
-- <a href = "https://expressjs.com/" target = "_blank">Express</a> - Backend web framework
-- <a href = "https://pgtyped.dev/" target = "_blank">PgTyped</a> - Typesafe SQL in TypeScript helper
-- <a href = "https://zod.dev/" target = "_blank">Zod</a> - Schema validation library
+- [TypeScript](https://www.typescriptlang.org/) - Programming language
+- [React](https://react.dev/) - JS UI library
+- [TailwindCSS](https://tailwindcss.com/) - CSS library
+- [PostgreSQL](https://www.postgresql.org/) - Relational database
+- [Express](https://expressjs.com/) - Backend web framework
+- [PgTyped](https://pgtyped.dev/) - Typesafe SQL in TypeScript helper
+- [Zod](https://zod.dev/) - Schema validation library
 
 ### Continued development
 
@@ -68,4 +68,4 @@ While developing the project I had to decide if I should use an ORM or write raw
 
 ### Useful resources
 
-I can't think of any particular resource that helped me signficantly while working of this project but I would definitely recommend <a href = "https://www.theodinproject.com/" target = "_blank">The Odin Project</a> for anyone starting with web development
+I can't think of any particular resource that helped me signficantly while working of this project but I would definitely recommend [The Odin Project](https://www.theodinproject.com/) for anyone starting with web development
