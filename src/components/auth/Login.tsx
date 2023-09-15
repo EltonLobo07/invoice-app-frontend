@@ -132,6 +132,20 @@ export function Login() {
                         </span>
                     </BtnContent>
                 </CustomButton>
+                <CustomButton
+                    type = "button"
+                    customType = "secondary"
+                    onClick = {() => {
+                        setEmail("guest.user@gmail.com");
+                        setPassword("guest@123");
+                        asyncTaskResultMsgSetter({
+                            type: "success",
+                            message: "Guest details added"
+                        });
+                    }}
+                >
+                    Add guest details
+                </CustomButton>
             </Layout.Form>
         </Layout>
     );

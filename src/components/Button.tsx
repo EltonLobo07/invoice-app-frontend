@@ -6,7 +6,7 @@ import { helpers } from "~/src/helpers";
 import { twStyles } from "~/src/twStyles";
 
 type PlainVariants = `plain${"" | "-darker"}`;
-type PublicBtnType = "primary" | "secondary" | "danger" | PlainVariants;
+export type PublicBtnType = "primary" | "secondary" | "danger" | PlainVariants;
 
 function getTxtAndBgColor(
     btnType: Exclude<PublicBtnType, PlainVariants> | `${PlainVariants}-${Theme}`

@@ -1,17 +1,20 @@
 import { twMerge } from "tailwind-merge";
-import { Button } from "~/src/components/Button";
+import { Button, PublicBtnType } from "~/src/components/Button";
 
-type Props = JSX.IntrinsicElements["button"];
+type Props = JSX.IntrinsicElements["button"] & {
+    customType?: PublicBtnType
+};
 
 export function CustomButton(props: Props) {
     const {
         children, 
+        customType = "primary",
         ...otherProps
     } = props;
 
     return (
         <Button
-            customType = "primary"
+            customType = {customType}
             nativeBtnProps = {{
                 ...otherProps,
                 className: twMerge(
