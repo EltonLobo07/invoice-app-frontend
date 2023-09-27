@@ -41,7 +41,8 @@ Users should be able to:
 
 - Frontend code: [frontend github repository](https://github.com/EltonLobo07/invoice-app-frontend)
 - Backend code: [backend github repository](https://github.com/EltonLobo07/invoice-app-backend)
-- Live Site URL: [live site](https://tan-rich-crow.cyclic.cloud/)
+- Live Site URL 1: [live site 1](https://invoice-app-92wf.onrender.com/)
+- Live Site URL 2: [live site 2](https://tan-rich-crow.cyclic.cloud/)
 
 ## My process
 
